@@ -1,0 +1,6719 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>About sparq</title>
+    <meta
+      name="description"
+      content="About sparq: the college-first student network for study partners, groups, events, stories, and inter-college connections."
+    />
+    <style>
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap");
+
+:root {
+  --bg-base: #0a0a0c;
+  --bg-surface: #16171d;
+  --bg-surface-hover: #1a1c23;
+  --bg-surface-strong: rgba(255, 255, 255, 0.07);
+  --border-subtle: rgba(255, 255, 255, 0.08);
+  --border-mid: rgba(255, 255, 255, 0.16);
+  --border-glow: rgba(255, 163, 77, 0.34);
+  --accent-primary: #f59e0b;
+  --accent-warm: #ffbf66;
+  --accent-glow: #f97316;
+  --accent-deep: #ea580c;
+  --accent-gold: #fcd34d;
+  --text-primary: #ffffff;
+  --text-body: #e2e8f0;
+  --text-secondary: #94a3b8;
+  --text-muted: #94a3b8;
+  --radius-sm: 10px;
+  --radius-md: 16px;
+  --radius-lg: 22px;
+  --radius-xl: 32px;
+  --transition-smooth: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg-base);
+  color: var(--text-primary);
+  font-family: "Inter", "Plus Jakarta Sans", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  min-height: 100%;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  position: relative;
+  overflow-x: hidden;
+  line-height: 1.65;
+  color: var(--text-body);
+}
+
+#splash {
+  position: fixed;
+  inset: 0;
+  background: #05050f;
+  z-index: 99999;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  transition: opacity 0.6s ease, visibility 0.6s ease;
+}
+
+#splash.hide {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.splash-logo {
+  font-size: clamp(48px, 10vw, 96px);
+  font-weight: 900;
+  background: linear-gradient(135deg, #ff8c00, #ffd700, #ff4500);
+  background-size: 300% 300%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: splashGrad 1.5s ease infinite, splashScale 0.8s ease both;
+}
+
+.splash-sub {
+  font-size: 14px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(255, 140, 0, 0.5);
+  animation: fadeIn 0.6s ease 0.4s both;
+}
+
+@keyframes splashScale {
+  from {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes splashGrad {
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+#scrollBar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  width: 0%;
+  background: linear-gradient(90deg, #ff8c00, #ffd700, #ff4500);
+  z-index: 9999;
+  border-radius: 0 2px 2px 0;
+  transition: width 0.1s linear;
+  pointer-events: none;
+}
+
+main,
+.launch-banner,
+.site-footer {
+  position: relative;
+  z-index: 12;
+}
+
+section[id] {
+  scroll-margin-top: 82px;
+}
+
+a {
+  color: inherit;
+}
+
+p {
+  margin: 0;
+}
+
+h1,
+h2,
+h3 {
+  margin: 0;
+  font-family: "Plus Jakarta Sans", "Inter", system-ui, sans-serif;
+  letter-spacing: -0.02em;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent-primary);
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+
+.noise-overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 4;
+  opacity: 0.022;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 220px 220px;
+}
+
+.bg-blobs {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(100px);
+  pointer-events: none;
+  will-change: transform;
+  animation: blobDrift linear infinite;
+}
+
+.blob-1 {
+  --blob-shift-y: calc(var(--scroll-pct, 0) * -120px);
+  width: 700px;
+  height: 700px;
+  background: #ff8c00;
+  top: -220px;
+  left: -200px;
+  opacity: 0.13;
+  animation-duration: 20s;
+}
+
+.blob-2 {
+  --blob-shift-y: calc(var(--scroll-pct, 0) * 80px);
+  width: 560px;
+  height: 560px;
+  background: #ffd700;
+  top: -160px;
+  right: -140px;
+  opacity: 0.1;
+  animation-duration: 26s;
+  animation-delay: -8s;
+}
+
+.blob-3 {
+  --blob-shift-y: calc(var(--scroll-pct, 0) * -60px);
+  width: 520px;
+  height: 520px;
+  background: #ff4500;
+  top: 42%;
+  left: 26%;
+  opacity: 0.07;
+  animation-duration: 32s;
+  animation-delay: -14s;
+}
+
+.blob-4 {
+  --blob-shift-y: calc(var(--scroll-pct, 0) * 45px);
+  width: 420px;
+  height: 420px;
+  background: #ff8c00;
+  bottom: -120px;
+  left: -120px;
+  opacity: 0.12;
+  animation-duration: 22s;
+  animation-delay: -5s;
+}
+
+.blob-5 {
+  --blob-shift-y: calc(var(--scroll-pct, 0) * -35px);
+  width: 470px;
+  height: 470px;
+  background: #ffb347;
+  bottom: -180px;
+  right: -120px;
+  opacity: 0.09;
+  animation-duration: 28s;
+  animation-delay: -18s;
+}
+
+.blob-6 {
+  --blob-shift-y: calc(var(--scroll-pct, 0) * 55px);
+  width: 320px;
+  height: 320px;
+  background: #ffd700;
+  top: 60%;
+  right: 12%;
+  opacity: 0.06;
+  animation-duration: 36s;
+  animation-delay: -25s;
+}
+
+@keyframes blobDrift {
+  0% {
+    transform: translate(0, calc(0px + var(--blob-shift-y, 0px))) scale(1);
+  }
+
+  20% {
+    transform: translate(40px, calc(-50px + var(--blob-shift-y, 0px))) scale(1.06);
+  }
+
+  40% {
+    transform: translate(-30px, calc(30px + var(--blob-shift-y, 0px))) scale(0.95);
+  }
+
+  60% {
+    transform: translate(20px, calc(60px + var(--blob-shift-y, 0px))) scale(1.04);
+  }
+
+  80% {
+    transform: translate(-40px, calc(-20px + var(--blob-shift-y, 0px))) scale(0.97);
+  }
+
+  100% {
+    transform: translate(0, calc(0px + var(--blob-shift-y, 0px))) scale(1);
+  }
+}
+
+.launch-banner {
+  width: 100%;
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 11px 20px;
+  background: rgba(255, 140, 0, 0.1);
+  border-bottom: 1px solid rgba(255, 140, 0, 0.2);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  position: sticky;
+  top: 0;
+  z-index: 140;
+}
+
+.launch-banner a {
+  color: var(--accent-warm);
+  text-decoration: none;
+  font-weight: 700;
+  transition: color 0.25s ease;
+}
+
+.launch-banner a:hover {
+  color: var(--accent-primary);
+}
+
+.section-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: clamp(60px, 8vw, 140px) clamp(20px, 5vw, 100px);
+}
+
+main > section {
+  position: relative;
+}
+
+main > section + section::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -30px;
+  height: 60px;
+  pointer-events: none;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 1440 60' preserveAspectRatio='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0,30 C360,60 1080,0 1440,30 L1440,60 L0,60 Z' fill='rgba(255,140,0,0.04)'/%3E%3C/svg%3E");
+}
+
+main > section:nth-of-type(even)::before {
+  transform: scaleX(-1);
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 1440 60' preserveAspectRatio='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0,30 C360,0 1080,60 1440,30 L1440,60 L0,60 Z' fill='rgba(255,140,0,0.03)'/%3E%3C/svg%3E");
+}
+
+.section-label {
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.11em;
+  color: var(--text-secondary);
+  margin-bottom: 14px;
+}
+
+.section-subtitle {
+  margin-top: 18px;
+  color: var(--text-secondary);
+  font-size: clamp(16px, 1.8vw, 18px);
+  max-width: 68ch;
+}
+
+.grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.grid-2 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+}
+
+.cards-grid {
+  margin-top: 34px;
+}
+
+.glass-card {
+  --mx: 50%;
+  --my: 50%;
+  --angle: 0deg;
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: 20px;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  padding: 28px 30px;
+  transition:
+    transform 0.45s var(--transition-smooth),
+    box-shadow 0.45s var(--transition-smooth),
+    border-color 0.45s ease;
+}
+
+.glass-card::before {
+  content: "";
+  position: absolute;
+  width: 220px;
+  height: 220px;
+  left: var(--mx);
+  top: var(--my);
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 140, 0, 0.08) 0%, transparent 70%);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.glass-card:hover {
+  transform: translateY(-8px) scale(1.012);
+  border-color: rgba(255, 140, 0, 0.4);
+  box-shadow:
+    0 24px 64px rgba(255, 100, 0, 0.15),
+    0 0 0 1px rgba(255, 140, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+.glass-card:hover::before {
+  opacity: 1;
+}
+
+.glass-card::after,
+.feature-card::after,
+.perk-card::after {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  background: conic-gradient(
+    from var(--angle, 0deg),
+    transparent 70%,
+    rgba(255, 140, 0, 0.6) 85%,
+    rgba(255, 215, 0, 0.8) 90%,
+    rgba(255, 140, 0, 0.6) 95%,
+    transparent 100%
+  );
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.glass-card:hover::after,
+.feature-card:hover::after,
+.perk-card:hover::after {
+  opacity: 1;
+  animation: rotateBorder 2.5s linear infinite;
+}
+
+@property --angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
+@keyframes rotateBorder {
+  to {
+    --angle: 360deg;
+  }
+}
+
+.glass-card h3 {
+  font-size: clamp(20px, 2vw, 24px);
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.glass-card p {
+  margin-top: 10px;
+  color: var(--text-secondary);
+  font-size: 16px;
+}
+
+.card-icon,
+.feature-icon {
+  display: inline-block;
+  font-size: 24px;
+  transition: transform 0.4s var(--transition-smooth);
+}
+
+.feature-card:hover .feature-icon {
+  transform: scale(1.3) rotate(10deg) translateY(-4px);
+}
+
+.gradient-text {
+  font-size: clamp(28px, 4vw, 48px);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.12;
+  background: linear-gradient(
+    90deg,
+    #ff8c00 0%,
+    #ffd700 25%,
+    #ff4500 55%,
+    #ffb347 80%,
+    #ff8c00 100%
+  );
+  background-size: 300% 100%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: none;
+}
+
+.type-cursor {
+  display: inline-block;
+  color: #ff8c00;
+  font-weight: 300;
+  margin-left: 2px;
+  animation: cursorBlink 0.8s ease-in-out infinite;
+}
+
+@keyframes cursorBlink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+
+.section-label-indicator {
+  position: fixed;
+  top: 80px;
+  left: 24px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255, 140, 0, 0.6);
+  opacity: 0;
+  transform: translateX(-10px);
+  transition: all 0.4s ease;
+  pointer-events: none;
+  z-index: 500;
+}
+
+.section-label-indicator.show {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+@keyframes gradientFlow {
+  0% {
+    background-position: 0% center;
+  }
+
+  50% {
+    background-position: 100% center;
+  }
+
+  100% {
+    background-position: 0% center;
+  }
+}
+
+.hero {
+  padding-top: clamp(50px, 7vw, 100px);
+}
+
+.hero-layout {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: clamp(22px, 3.6vw, 48px);
+}
+
+.hero-copy {
+  flex: 0 1 48%;
+  max-width: 48%;
+  min-width: 0;
+}
+
+.hero-preview {
+  flex: 0 1 52%;
+  max-width: 52%;
+  min-width: 0;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 12px;
+  overflow: clip;
+  padding-right: 6px;
+}
+
+.hero-seq {
+  opacity: 0;
+  transform: translateY(20px);
+  transition:
+    opacity 0.75s var(--transition-smooth),
+    transform 0.75s var(--transition-smooth);
+}
+
+.hero-seq.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent-warm);
+  border: 1px solid rgba(255, 140, 0, 0.35);
+  border-radius: 999px;
+  padding: 8px 16px;
+  background: rgba(255, 140, 0, 0.1);
+}
+
+.hero-title {
+  margin-top: 16px;
+  font-size: clamp(44px, 5.5vw, 84px);
+  line-height: 1;
+  letter-spacing: -0.03em;
+  font-weight: 800;
+  color: var(--text-primary);
+}
+
+.title-accent {
+  background: linear-gradient(135deg, var(--accent-primary), var(--accent-gold), var(--accent-deep));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero-subtitle {
+  margin-top: 14px;
+  font-size: clamp(17px, 2vw, 20px);
+  line-height: 1.72;
+  color: #d7daea;
+  max-width: 62ch;
+}
+
+.hero-subline {
+  margin-top: 10px;
+  color: var(--text-secondary);
+  font-size: 15px;
+  max-width: 60ch;
+}
+
+.waitlist-counter {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: #888ea8;
+  margin-top: 12px;
+}
+
+.wc-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #22c55e;
+  animation: dotBlink 2s ease-in-out infinite;
+  flex-shrink: 0;
+}
+
+@keyframes dotBlink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.3;
+  }
+}
+
+.trust-pills {
+  margin-top: 16px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.trust-pill,
+.badge-chip {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 5px 11px;
+  border-radius: 999px;
+  background: rgba(255, 140, 0, 0.15);
+  color: var(--accent-warm);
+  border: 1px solid rgba(255, 140, 0, 0.3);
+}
+
+.hero-ctas {
+  margin-top: 14px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.app-soon-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 140, 0, 0.06);
+  border: 1px dashed rgba(255, 140, 0, 0.35);
+  border-radius: 999px;
+  padding: 8px 16px;
+  font-size: 13px;
+  font-weight: 500;
+  color: rgba(255, 179, 71, 0.8);
+  margin-top: 16px;
+  width: fit-content;
+}
+
+.app-soon-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #ff8c00;
+  animation: soonPulse 2s ease-in-out infinite;
+  flex-shrink: 0;
+}
+
+@keyframes soonPulse {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.4;
+    transform: scale(0.7);
+  }
+}
+
+.btn-primary,
+.btn-secondary,
+.btn-campus {
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  border-radius: 14px;
+  padding: 14px 30px;
+  font-weight: 700;
+  transition:
+    transform 0.35s var(--transition-smooth),
+    box-shadow 0.35s var(--transition-smooth),
+    border-color 0.35s var(--transition-smooth),
+    background 0.35s var(--transition-smooth),
+    color 0.35s var(--transition-smooth);
+}
+
+.btn-primary {
+  color: #ffffff;
+  border: none;
+  background: linear-gradient(135deg, #ff8c00, #ff4500);
+  position: relative;
+  overflow: hidden;
+  animation: ctaPulse 3s ease-in-out infinite;
+}
+
+@keyframes ctaPulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(255, 140, 0, 0.42);
+  }
+
+  50% {
+    box-shadow: 0 0 0 18px rgba(255, 140, 0, 0);
+  }
+}
+
+@keyframes cUp {
+  0% {
+    transform: translate(0, 0) scale(1);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translate(var(--rx), -130px) scale(0.2);
+    opacity: 0;
+  }
+}
+
+@keyframes rippleOut {
+  to {
+    transform: scale(1);
+    opacity: 0;
+  }
+}
+
+.btn-primary:hover {
+  transform: translateY(-4px) scale(1.035);
+  box-shadow: 0 16px 48px rgba(255, 100, 0, 0.45);
+}
+
+.btn-secondary {
+  color: var(--accent-warm);
+  border: 1.5px solid rgba(255, 140, 0, 0.4);
+  background: rgba(255, 255, 255, 0.01);
+}
+
+.btn-secondary:hover {
+  background: rgba(255, 140, 0, 0.08);
+  border-color: var(--accent-primary);
+  transform: translateY(-3px);
+  box-shadow: 0 10px 30px rgba(255, 140, 0, 0.16);
+}
+
+.hero-card-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  animation: floatCard 6s ease-in-out infinite;
+  will-change: transform;
+  width: 100%;
+  padding-right: 22px;
+}
+
+@keyframes floatCard {
+  0% {
+    transform: translateY(0) rotate(-0.5deg);
+  }
+
+  50% {
+    transform: translateY(-18px) rotate(0.5deg);
+  }
+
+  100% {
+    transform: translateY(0) rotate(-0.5deg);
+  }
+}
+
+.hero-sub-card {
+  position: relative;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 18px;
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  padding: 18px 22px;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.35);
+}
+
+.hero-sub-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(105deg, transparent 35%, rgba(255, 255, 255, 0.045) 50%, transparent 65%);
+  background-size: 300% 100%;
+  animation: shimmerSweep 4s ease-in-out infinite;
+  border-radius: inherit;
+  pointer-events: none;
+}
+
+@keyframes shimmerSweep {
+  0% {
+    background-position: 200% center;
+  }
+
+  100% {
+    background-position: -200% center;
+  }
+}
+
+.hero-sub-card:nth-child(2) {
+  margin-left: 18px;
+}
+
+.hero-sub-card:nth-child(3) {
+  margin-left: 36px;
+}
+
+.hero-card-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.avatar-stack {
+  display: flex;
+  align-items: center;
+}
+
+.avatar-dot {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-weight: 700;
+  font-size: 12px;
+  color: #0a0a0f;
+  background: linear-gradient(135deg, var(--accent-primary), var(--accent-gold));
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.avatar-dot + .avatar-dot {
+  margin-left: -8px;
+}
+
+.avatar-dot-alt {
+  background: linear-gradient(135deg, #ffd58f, #ff8c00);
+}
+
+.hero-card-kicker {
+  font-size: 12px;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.hero-card-title {
+  font-size: 16px;
+  font-weight: 700;
+  margin-top: 2px;
+}
+
+.hero-card-meta {
+  margin-top: 8px;
+  color: #b6bbd4;
+  font-size: 14px;
+}
+
+.hero-card-foot {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.hero-mini-card {
+  position: relative;
+  right: auto;
+  bottom: auto;
+  align-self: flex-end;
+  width: clamp(220px, 44%, 280px);
+  margin-right: 12px;
+  margin-top: 6px;
+  padding: 16px 18px;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 140, 0, 0.35);
+  background: rgba(9, 12, 28, 0.72);
+  box-shadow: 0 16px 34px rgba(0, 0, 0, 0.35);
+  animation: miniFloat 5s ease-in-out infinite;
+  z-index: 2;
+}
+
+@keyframes miniFloat {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.countdown-strip {
+  text-align: center;
+  padding: 46px 20px;
+  background: rgba(255, 140, 0, 0.045);
+  border-top: 1px solid rgba(255, 140, 0, 0.12);
+  border-bottom: 1px solid rgba(255, 140, 0, 0.12);
+  position: relative;
+  z-index: 10;
+}
+
+.cd-label {
+  font-size: 13px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  margin-bottom: 20px;
+}
+
+.cd-grid {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.cd-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 140, 0, 0.2);
+  border-radius: 16px;
+  padding: 16px 24px;
+  min-width: 86px;
+}
+
+.cd-block span {
+  font-size: clamp(32px, 5vw, 56px);
+  font-weight: 800;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  background: linear-gradient(135deg, #ff8c00, #ffd700);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.cd-block label {
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-top: 6px;
+}
+
+.cd-sep {
+  font-size: 40px;
+  font-weight: 800;
+  color: rgba(255, 140, 0, 0.4);
+  margin-bottom: 18px;
+}
+
+.cd-live {
+  font-size: clamp(24px, 3vw, 32px);
+  font-weight: 800;
+  background: linear-gradient(135deg, #ff8c00, #ffd700);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.groups-layout {
+  margin-top: 32px;
+  display: grid;
+  gap: 20px;
+}
+
+.group-preview {
+  margin-top: 8px;
+}
+
+.group-chip-wrap {
+  margin-top: 16px;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.group-chip {
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  padding: 8px 12px;
+  border-radius: 999px;
+  font-size: 13px;
+  color: #c8cee5;
+  background: rgba(255, 255, 255, 0.03);
+  animation: floatChip 5s ease-in-out infinite;
+}
+
+.group-chip:nth-child(even) {
+  animation-delay: -1.7s;
+}
+
+.group-chip:nth-child(3n) {
+  animation-delay: -2.8s;
+}
+
+@keyframes floatChip {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-4px);
+  }
+}
+
+.chip-popular {
+  border-color: rgba(255, 140, 0, 0.45);
+  color: var(--accent-warm);
+}
+
+.chip-active {
+  background: rgba(255, 140, 0, 0.14);
+  border-color: rgba(255, 140, 0, 0.5);
+  box-shadow: 0 10px 24px rgba(255, 140, 0, 0.2);
+}
+
+.events-preview {
+  margin-top: 24px;
+}
+
+.stories-row {
+  margin-top: 30px;
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  padding-bottom: 8px;
+  scrollbar-width: none;
+}
+
+.stories-row::-webkit-scrollbar {
+  display: none;
+}
+
+.story-item {
+  min-width: 78px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  color: var(--text-secondary);
+}
+
+.story-item span {
+  width: 62px;
+  height: 62px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  font-size: 14px;
+  font-weight: 700;
+  color: #0d1019;
+  position: relative;
+  background: radial-gradient(circle at 20% 20%, #ffddb2, #ff8c00);
+}
+
+.story-item.unseen span {
+  box-shadow: 0 0 0 2px rgba(255, 140, 0, 0.45), 0 0 0 6px rgba(255, 140, 0, 0.16);
+  animation: ringPulse 2.8s ease-in-out infinite;
+}
+
+.story-item.seen span {
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.16);
+}
+
+.story-item small {
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+@keyframes ringPulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 2px rgba(255, 140, 0, 0.45), 0 0 0 6px rgba(255, 140, 0, 0.16);
+  }
+
+  50% {
+    box-shadow: 0 0 0 2px rgba(255, 140, 0, 0.6), 0 0 0 12px rgba(255, 140, 0, 0.05);
+  }
+}
+
+.network-card {
+  margin-top: 30px;
+  border-color: rgba(255, 140, 0, 0.3);
+}
+
+.network-caption {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-secondary);
+}
+
+.campus-network {
+  margin-top: 18px;
+  min-height: 360px;
+  position: relative;
+}
+
+.network-node {
+  position: absolute;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  color: #f7f8ff;
+  padding: 12px 14px;
+  min-width: 88px;
+  font-size: 13px;
+  font-weight: 600;
+  animation: nodeFloat 6s ease-in-out infinite;
+}
+
+.network-node.center {
+  width: 112px;
+  height: 112px;
+  border-radius: 50%;
+  font-size: 20px;
+  font-weight: 800;
+  color: #0f1117;
+  background: linear-gradient(135deg, #ff8c00, #ffd700);
+  border-color: rgba(255, 140, 0, 0.6);
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  animation: none;
+}
+
+.node-srm {
+  left: 10%;
+  top: 12%;
+}
+
+.node-du {
+  left: 69%;
+  top: 12%;
+  animation-delay: -1.1s;
+}
+
+.node-vit {
+  right: 8%;
+  top: 46%;
+  animation-delay: -1.9s;
+}
+
+.node-lpu {
+  left: 64%;
+  bottom: 8%;
+  animation-delay: -2.7s;
+}
+
+.node-purnima {
+  left: 22%;
+  bottom: 8%;
+  animation-delay: -3.1s;
+}
+
+.node-more {
+  left: 1%;
+  top: 48%;
+  animation-delay: -3.8s;
+}
+
+@keyframes nodeFloat {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.network-line {
+  position: absolute;
+  height: 2px;
+  background: linear-gradient(90deg, rgba(255, 140, 0, 0.4), rgba(255, 211, 89, 0.65));
+  transform-origin: left center;
+  box-shadow: 0 0 14px rgba(255, 140, 0, 0.28);
+  opacity: 0.7;
+  animation: linePulse 2.8s ease-in-out infinite;
+}
+
+.network-line.line-1 {
+  width: 170px;
+  left: 46%;
+  top: 42%;
+  transform: rotate(-145deg);
+}
+
+.network-line.line-2 {
+  width: 180px;
+  left: 54%;
+  top: 42%;
+  transform: rotate(-35deg);
+}
+
+.network-line.line-3 {
+  width: 148px;
+  left: 56%;
+  top: 56%;
+  transform: rotate(16deg);
+}
+
+.network-line.line-4 {
+  width: 148px;
+  left: 45%;
+  top: 57%;
+  transform: rotate(66deg);
+}
+
+.network-line.line-5 {
+  width: 170px;
+  left: 43%;
+  top: 55%;
+  transform: rotate(146deg);
+}
+
+.network-line.line-6 {
+  width: 172px;
+  left: 36%;
+  top: 50%;
+  transform: rotate(198deg);
+}
+
+@keyframes linePulse {
+  0%,
+  100% {
+    opacity: 0.48;
+  }
+
+  50% {
+    opacity: 0.9;
+  }
+}
+
+.stats-grid {
+  margin-top: 30px;
+  display: grid;
+  gap: 20px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.stat-ring-card {
+  text-align: center;
+  padding: 26px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.ring-svg {
+  width: 80px;
+  height: 80px;
+  transform: rotate(-90deg);
+}
+
+.ring-bg {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.06);
+  stroke-width: 6;
+}
+
+.ring-fill {
+  fill: none;
+  stroke: url(#ringGrad);
+  stroke-width: 6;
+  stroke-linecap: round;
+  stroke-dasharray: 213.6;
+  stroke-dashoffset: 213.6;
+  transition: stroke-dashoffset 2s var(--transition-smooth);
+}
+
+.ring-num {
+  font-size: clamp(32px, 4.2vw, 44px);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  background: linear-gradient(135deg, #ff8c00, #ffd700);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.ring-label {
+  margin-top: 8px;
+  font-size: 13px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+
+.ticker-wrap {
+  display: inline-flex;
+  overflow: hidden;
+  height: 1.1em;
+  line-height: 1.1em;
+  vertical-align: bottom;
+}
+
+.ticker-digit {
+  display: inline-flex;
+  flex-direction: column;
+  transition: transform 1.8s var(--transition-smooth);
+}
+
+.ticker-digit span {
+  display: block;
+  height: 1.1em;
+  line-height: 1.1em;
+}
+
+.ticker-static,
+.ticker-suffix,
+.ring-num .ticker-wrap {
+  color: inherit;
+  -webkit-text-fill-color: inherit;
+}
+
+.vision-timeline {
+  margin-top: 30px;
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+  padding-top: 40px;
+}
+
+.timeline-line {
+  position: absolute;
+  left: 8%;
+  right: 8%;
+  top: 16px;
+  height: 2px;
+  background: linear-gradient(90deg, var(--accent-primary), var(--accent-warm));
+  transform-origin: left center;
+  transform: scaleX(0);
+  transition: transform 1.6s var(--transition-smooth);
+}
+
+.timeline-line.visible {
+  transform: scaleX(1);
+}
+
+.phase-card {
+  text-align: center;
+  padding: 16px 12px;
+}
+
+.phase-card h3 {
+  margin-top: 12px;
+  font-size: 18px;
+}
+
+.phase-card p {
+  margin-top: 6px;
+  color: var(--text-secondary);
+  font-size: 14px;
+}
+
+.phase-dot {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  margin: 0 auto;
+  background: var(--accent-primary);
+  animation: dotPulse 2.5s ease-in-out infinite;
+}
+
+@keyframes dotPulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(255, 140, 0, 0.6);
+  }
+
+  50% {
+    box-shadow: 0 0 0 12px rgba(255, 140, 0, 0);
+  }
+}
+
+.campus-section {
+  text-align: center;
+}
+
+.campus-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent-warm);
+  border: 1px solid rgba(255, 140, 0, 0.3);
+  border-radius: 999px;
+  padding: 6px 18px;
+  margin-bottom: 20px;
+  background: rgba(255, 140, 0, 0.06);
+}
+
+.campus-sub {
+  max-width: 600px;
+  margin: 16px auto 40px;
+  color: var(--text-secondary);
+  font-size: 17px;
+}
+
+.campus-perks {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.perk-card {
+  text-align: left;
+  padding: 20px;
+}
+
+.perk-card span {
+  display: block;
+  font-size: 24px;
+}
+
+.perk-card p {
+  margin-top: 10px;
+  font-size: 14px;
+}
+
+.btn-campus {
+  margin-top: 32px;
+  border-radius: 999px;
+  color: #fff;
+  background: linear-gradient(135deg, #ff8c00, #ff4500);
+  animation: ctaPulse 3s ease-in-out infinite;
+}
+
+.btn-campus:hover {
+  transform: translateY(-4px) scale(1.04);
+  box-shadow: 0 16px 48px rgba(255, 100, 0, 0.45);
+}
+
+.campus-note {
+  margin-top: 14px;
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.app-coming-wrap {
+  padding-top: 22px;
+  padding-bottom: 10px;
+}
+
+.app-coming-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin: 0 auto;
+  max-width: 800px;
+  border-color: rgba(255, 140, 0, 0.2);
+  border-style: dashed;
+}
+
+.acc-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.acc-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  background: rgba(255, 140, 0, 0.1);
+  border: 1px solid rgba(255, 140, 0, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ff8c00;
+  flex-shrink: 0;
+}
+
+.acc-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #f0f0f0;
+  margin-bottom: 4px;
+}
+
+.acc-sub {
+  font-size: 13px;
+  color: #888ea8;
+}
+
+.acc-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.acc-platform {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #888ea8;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 999px;
+  padding: 6px 14px;
+}
+
+.acc-tag {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: #ff8c00;
+  background: rgba(255, 140, 0, 0.08);
+  border: 1px solid rgba(255, 140, 0, 0.25);
+  border-radius: 999px;
+  padding: 6px 14px;
+  animation: appPulse 2.5s ease-in-out infinite;
+}
+
+@keyframes appPulse {
+  0%,
+  100% {
+    border-color: rgba(255, 140, 0, 0.2);
+  }
+  50% {
+    border-color: rgba(255, 140, 0, 0.5);
+  }
+}
+
+.footer-social {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 20px;
+}
+
+.social-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 16px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.04);
+  color: #888ea8;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 500;
+  transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.social-link:hover {
+  background: rgba(255, 140, 0, 0.08);
+  border-color: rgba(255, 140, 0, 0.4);
+  color: #ffb347;
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(255, 140, 0, 0.12);
+}
+
+.social-link[aria-label*="Instagram"]:hover {
+  background: rgba(225, 48, 108, 0.08);
+  border-color: rgba(225, 48, 108, 0.4);
+  color: #e1306c;
+  box-shadow: 0 8px 24px rgba(225, 48, 108, 0.12);
+}
+
+.social-link[aria-label*="LinkedIn"]:hover {
+  background: rgba(10, 102, 194, 0.08);
+  border-color: rgba(10, 102, 194, 0.4);
+  color: #0a66c2;
+  box-shadow: 0 8px 24px rgba(10, 102, 194, 0.12);
+}
+
+.social-link[aria-label*="Twitter"]:hover {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.3);
+  color: #f0f0f0;
+  box-shadow: 0 8px 24px rgba(255, 255, 255, 0.06);
+}
+
+.social-icon {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+
+.urgency-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 59, 48, 0.08);
+  border: 1px solid rgba(255, 59, 48, 0.2);
+  border-radius: 999px;
+  padding: 8px 18px;
+  font-size: 13px;
+  color: #ff6b6b;
+  margin-bottom: 20px;
+}
+
+.urgency-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #ff4444;
+  animation: urgBlink 1.5s ease-in-out infinite;
+  flex-shrink: 0;
+}
+
+@keyframes urgBlink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.3;
+  }
+}
+
+.avatar-proof {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 14px;
+  margin-bottom: 18px;
+}
+
+.avatar-stack {
+  display: flex;
+}
+
+.av {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 2px solid #05050f;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  font-weight: 700;
+  color: #fff;
+  margin-left: -8px;
+  transition: transform 0.2s ease, margin-left 0.2s ease;
+}
+
+.av:first-child {
+  margin-left: 0;
+}
+
+.avatar-stack:hover .av {
+  margin-left: -4px;
+}
+
+.proof-text {
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.proof-text span {
+  color: var(--accent-warm);
+  font-weight: 700;
+}
+
+.marquee-wrap {
+  overflow: hidden;
+  padding: 20px 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  background: rgba(255, 255, 255, 0.02);
+  mask-image: linear-gradient(90deg, transparent, black 15%, black 85%, transparent);
+  -webkit-mask-image: linear-gradient(90deg, transparent, black 15%, black 85%, transparent);
+}
+
+.marquee-track {
+  display: flex;
+  gap: 48px;
+  width: max-content;
+  animation: marqueeScroll 28s linear infinite;
+}
+
+.marquee-track span {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  white-space: nowrap;
+  transition: color 0.2s;
+}
+
+.marquee-track span:hover {
+  color: var(--accent-warm);
+}
+
+@keyframes marqueeScroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.marquee-wrap:hover .marquee-track {
+  animation-play-state: paused;
+}
+
+.faq-list {
+  max-width: 720px;
+  margin: 40px auto 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.faq-item {
+  --lx: 50%;
+  --ly: 50%;
+  position: relative;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  transition: border-color 0.3s ease;
+}
+
+.faq-item::before {
+  content: "";
+  position: absolute;
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 140, 0, 0.07) 0%, transparent 70%);
+  left: var(--lx);
+  top: var(--ly);
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.faq-item:hover {
+  border-color: rgba(255, 140, 0, 0.25);
+}
+
+.faq-item.open {
+  border-color: rgba(255, 140, 0, 0.4);
+}
+
+.faq-q {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  background: none;
+  border: none;
+  padding: 20px 24px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #f0f0f0;
+  cursor: pointer;
+  text-align: left;
+  transition: color 0.2s ease;
+}
+
+.faq-q:hover {
+  color: #ffb347;
+}
+
+.faq-icon {
+  font-size: 22px;
+  color: #ff8c00;
+  line-height: 1;
+  transition: transform 0.35s cubic-bezier(0.23, 1, 0.32, 1);
+  flex-shrink: 0;
+}
+
+.faq-item.open .faq-icon {
+  transform: rotate(45deg);
+}
+
+.faq-a {
+  max-height: 0;
+  overflow: hidden;
+  font-size: 15px;
+  color: #888ea8;
+  line-height: 1.75;
+  padding: 0 24px;
+  transition: max-height 0.4s cubic-bezier(0.23, 1, 0.32, 1), padding 0.3s ease;
+}
+
+.faq-item.open .faq-a {
+  max-height: 220px;
+  padding: 0 24px 20px;
+}
+
+.final-cta {
+  text-align: center;
+}
+
+.waitlist-count {
+  margin-top: 20px;
+  color: var(--accent-warm);
+  font-size: 16px;
+  font-weight: 600;
+}
+
+#wl-count {
+  font-size: 26px;
+  font-weight: 800;
+  color: var(--text-primary);
+}
+
+.final-cta-buttons {
+  margin-top: 24px;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.share-row {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  margin-top: 28px;
+}
+
+.share-label {
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.share-btns {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.share-btn {
+  padding: 10px 22px;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  border: 1.5px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.share-btn:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.2);
+  color: var(--text-primary);
+  transform: translateY(-2px);
+}
+
+.share-wa {
+  border-color: rgba(37, 211, 102, 0.3);
+  color: #25d366;
+}
+
+.share-wa:hover {
+  background: rgba(37, 211, 102, 0.08);
+  border-color: #25d366;
+  color: #25d366;
+}
+
+.exit-popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.92);
+  background: #0d0d1f;
+  border: 1px solid rgba(255, 140, 0, 0.3);
+  border-radius: 24px;
+  padding: 40px 36px;
+  max-width: 420px;
+  width: 90%;
+  z-index: 99998;
+  text-align: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+  box-shadow: 0 40px 80px rgba(0, 0, 0, 0.6), 0 0 60px rgba(255, 140, 0, 0.08);
+}
+
+.exit-popup.show {
+  opacity: 1;
+  pointer-events: all;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.exit-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  z-index: 99997;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+}
+
+.exit-overlay.show {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.exit-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-size: 18px;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.exit-close:hover {
+  color: var(--text-primary);
+}
+
+.exit-badge {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent-warm);
+  border: 1px solid rgba(255, 140, 0, 0.3);
+  border-radius: 999px;
+  padding: 5px 16px;
+  margin-bottom: 20px;
+  background: rgba(255, 140, 0, 0.06);
+}
+
+.exit-title {
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--text-primary);
+  margin-bottom: 12px;
+}
+
+.exit-sub {
+  font-size: 15px;
+  color: var(--text-secondary);
+  line-height: 1.7;
+  margin-bottom: 28px;
+}
+
+.exit-btn {
+  display: block;
+  background: linear-gradient(135deg, #ff8c00, #ff4500);
+  color: #fff;
+  font-size: 16px;
+  font-weight: 700;
+  padding: 14px 28px;
+  border-radius: 14px;
+  text-decoration: none;
+  margin-bottom: 12px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.exit-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 32px rgba(255, 100, 0, 0.4);
+}
+
+.exit-note {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.cursor-glow {
+  position: fixed;
+  width: 420px;
+  height: 420px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 140, 0, 0.07) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 5;
+  top: 0;
+  left: 0;
+  transform: translate(-999px, -999px);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.cursor-glow.active {
+  opacity: 1;
+}
+
+.sticky-mob-cta {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(8, 8, 20, 0.95);
+  border-top: 1px solid rgba(255, 140, 0, 0.2);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  padding: 14px 20px calc(14px + env(safe-area-inset-bottom));
+  z-index: 1500;
+  transform: translateY(100%);
+  transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.sticky-mob-cta.visible {
+  transform: translateY(0);
+}
+
+.smc-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+.smc-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: #f0f0f0;
+}
+
+.smc-sub {
+  font-size: 12px;
+  color: #888ea8;
+  margin-top: 2px;
+}
+
+.smc-btn {
+  background: linear-gradient(135deg, #ff8c00, #ff4500);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 700;
+  padding: 10px 22px;
+  border-radius: 999px;
+  text-decoration: none;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.site-footer {
+  background: rgba(255, 255, 255, 0.02);
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
+  padding: 64px 40px 32px;
+  margin-top: 80px;
+}
+
+.footer-inner {
+  max-width: 1100px;
+  margin: 0 auto 48px;
+  display: flex;
+  justify-content: space-between;
+  gap: 48px;
+  flex-wrap: wrap;
+}
+
+.footer-logo {
+  font-size: 28px;
+  font-weight: 900;
+  background: linear-gradient(135deg, #ff8c00, #ffd700);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 12px;
+}
+
+.footer-tagline {
+  font-size: 14px;
+  color: #555870;
+  line-height: 1.6;
+  max-width: 280px;
+}
+
+.footer-launch {
+  font-size: 13px;
+  color: #ff8c00;
+  margin-top: 8px;
+  opacity: 0.8;
+}
+
+.footer-links {
+  display: flex;
+  gap: 48px;
+  flex-wrap: wrap;
+}
+
+.footer-col {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.footer-col-title {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #555870;
+  margin-bottom: 4px;
+}
+
+.footer-col a {
+  font-size: 14px;
+  color: #888ea8;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.footer-col a:hover {
+  color: #ff8c00;
+}
+
+.footer-bottom {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding-top: 24px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  font-size: 13px;
+  color: #555870;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.footer-dot {
+  color: rgba(255, 255, 255, 0.2);
+}
+
+.footer-social-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  width: 100%;
+  margin-bottom: 6px;
+}
+
+.fsr-label {
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #555870;
+}
+
+.fsr-icons {
+  display: flex;
+  gap: 8px;
+}
+
+.fsr-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.03);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #555870;
+  text-decoration: none;
+  transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.fsr-icon:hover {
+  color: #ff8c00;
+  border-color: rgba(255, 140, 0, 0.4);
+  background: rgba(255, 140, 0, 0.08);
+  transform: translateY(-3px);
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition:
+    opacity 0.8s var(--transition-smooth),
+    transform 0.8s var(--transition-smooth);
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+h1.hero-title {
+  opacity: 1 !important;
+  transform: none !important;
+  transition: none !important;
+}
+
+.reveal-stagger:nth-child(1) {
+  transition-delay: 0.05s;
+}
+
+.reveal-stagger:nth-child(2) {
+  transition-delay: 0.15s;
+}
+
+.reveal-stagger:nth-child(3) {
+  transition-delay: 0.25s;
+}
+
+.reveal-stagger:nth-child(4) {
+  transition-delay: 0.35s;
+}
+
+.reveal-stagger:nth-child(5) {
+  transition-delay: 0.45s;
+}
+
+.reveal-stagger:nth-child(6) {
+  transition-delay: 0.55s;
+}
+
+.reveal-stagger:nth-child(7) {
+  transition-delay: 0.65s;
+}
+
+.reveal-stagger:nth-child(8) {
+  transition-delay: 0.75s;
+}
+
+.reveal-stagger:nth-child(9) {
+  transition-delay: 0.85s;
+}
+
+.reveal-stagger:nth-child(10) {
+  transition-delay: 0.95s;
+}
+
+.reveal-stagger:nth-child(11) {
+  transition-delay: 1.05s;
+}
+
+.reveal-stagger:nth-child(12) {
+  transition-delay: 1.15s;
+}
+
+@media (max-width: 1150px) {
+  .hero-layout {
+    gap: 22px;
+  }
+
+  .hero-sub-card:nth-child(2) {
+    margin-left: 14px;
+  }
+
+  .hero-sub-card:nth-child(3) {
+    margin-left: 28px;
+  }
+
+  .campus-perks,
+  .stats-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .vision-timeline {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    row-gap: 24px;
+    padding-top: 30px;
+  }
+
+  .timeline-line {
+    left: 14%;
+    right: 14%;
+  }
+}
+
+@media (max-width: 1024px) {
+  .grid-3 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .hero-copy,
+  .hero-preview {
+    flex-basis: 50%;
+    max-width: 50%;
+  }
+
+  }
+
+@media (max-width: 860px) {
+  .hero-layout {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .hero-copy,
+  .hero-preview {
+    max-width: 100%;
+    flex-basis: auto;
+  }
+
+  .hero-mini-card {
+    display: none;
+  }
+
+  .hero-sub-card:nth-child(2),
+  .hero-sub-card:nth-child(3) {
+    margin-left: 0;
+  }
+
+  }
+
+@media (max-width: 768px) {
+  .grid-3,
+  .grid-2,
+  .stats-grid,
+  .campus-perks,
+  .vision-timeline {
+    grid-template-columns: 1fr;
+  }
+
+  .timeline-line {
+    left: 15px;
+    right: auto;
+    top: 0;
+    width: 2px;
+    height: calc(100% - 28px);
+    transform: scaleY(0);
+    transform-origin: top center;
+  }
+
+  .timeline-line.visible {
+    transform: scaleY(1);
+  }
+
+  .phase-card {
+    text-align: left;
+    padding-left: 36px;
+    position: relative;
+  }
+
+  .phase-dot {
+    margin: 0;
+    position: absolute;
+    left: 8px;
+    top: 18px;
+  }
+
+  .campus-network {
+    min-height: auto;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .network-line {
+    display: none;
+  }
+
+  .network-node {
+    position: static;
+    animation: none;
+    transform: none;
+  }
+
+  .network-node.center {
+    grid-column: 1 / -1;
+    justify-self: center;
+    width: 100px;
+    height: 100px;
+  }
+
+  .cursor-glow {
+    display: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .launch-banner {
+    font-size: 12px;
+    padding: 10px 12px;
+    flex-wrap: wrap;
+  }
+
+  .hero-title {
+    font-size: clamp(40px, 11vw, 58px);
+  }
+
+  .hero-subtitle {
+    font-size: 16px;
+    max-width: 40ch;
+  }
+
+  .hero-ctas {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .btn-primary,
+  .btn-secondary,
+  .btn-campus {
+    width: 100%;
+  }
+
+  .cd-grid {
+    gap: 8px;
+  }
+
+  .cd-block {
+    min-width: 64px;
+    padding: 12px 14px;
+  }
+
+  .cd-sep {
+    font-size: 28px;
+    margin-bottom: 16px;
+  }
+
+  .blob {
+    opacity: 0.07 !important;
+    filter: blur(80px);
+  }
+
+  .glass-card:hover {
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .reveal,
+  .hero-seq {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .cursor-glow,
+  .noise-overlay {
+    display: none;
+  }
+}
+
+
+
+/* Unified sticky launch header */
+.launch-banner {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: clamp(10px, 1.5vw, 18px);
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: 12px clamp(14px, 3vw, 42px);
+  background: rgba(8, 10, 24, 0.82);
+  border-bottom: 1px solid rgba(255, 140, 0, 0.24);
+  position: sticky;
+  top: 0;
+  z-index: 160;
+  min-height: 56px;
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+}
+
+.launch-left {
+  justify-self: start;
+}
+
+.launch-logo {
+  color: var(--accent-primary);
+  font-size: clamp(20px, 2.2vw, 26px);
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  text-transform: lowercase;
+}
+
+.launch-center {
+  justify-self: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-size: clamp(12px, 1.15vw, 14px);
+  font-weight: 700;
+  color: #eed9bd;
+  text-align: center;
+  white-space: nowrap;
+  min-width: 0;
+  padding-inline: 8px;
+  text-shadow: 0 0 14px rgba(255, 140, 0, 0.24);
+}
+
+.launch-link {
+  color: var(--accent-warm);
+  text-decoration: none;
+}
+
+.launch-right {
+  justify-self: end;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.ham-btn {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  z-index: 1001;
+}
+
+.ham-btn span {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background: #f0f0f0;
+  border-radius: 2px;
+  transition: all 0.3s ease;
+}
+
+.ham-btn.open span:nth-child(1) {
+  transform: rotate(45deg) translate(5px, 5px);
+}
+
+.ham-btn.open span:nth-child(2) {
+  opacity: 0;
+}
+
+.ham-btn.open span:nth-child(3) {
+  transform: rotate(-45deg) translate(5px, -5px);
+}
+
+.hdr-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 9px 16px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 700;
+  text-decoration: none;
+  border: 1px solid transparent;
+  transition:
+    transform 0.3s var(--transition-smooth),
+    box-shadow 0.3s var(--transition-smooth),
+    background 0.3s var(--transition-smooth),
+    border-color 0.3s var(--transition-smooth);
+}
+
+.hdr-btn:hover {
+  transform: translateY(-2px);
+}
+
+.hdr-btn-ghost {
+  color: #d8ddef;
+  border-color: rgba(255, 255, 255, 0.28);
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.hdr-btn-primary {
+  color: #fff;
+  background: linear-gradient(135deg, #ff8c00, #ff4500);
+  box-shadow: 0 10px 22px rgba(255, 100, 0, 0.25);
+}
+
+.desktop-nav {
+  position: sticky;
+  top: 58px;
+  z-index: 145;
+  margin: 10px auto 0;
+  width: fit-content;
+  max-width: calc(100% - 28px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 10px 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 140, 0, 0.22);
+  background: rgba(10, 12, 26, 0.72);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+.desktop-nav a {
+  color: #9ca4bf;
+  text-decoration: none;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  padding: 6px 10px;
+  border-radius: 999px;
+  white-space: nowrap;
+  transition: color 0.25s ease, background 0.25s ease;
+}
+
+.desktop-nav a:hover {
+  color: var(--text-primary);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.desktop-nav a.nav-active,
+.mob-link.nav-active,
+.side-nav-item.nav-active {
+  color: #ff8c00;
+  font-weight: 700;
+}
+
+.social-sidebar {
+  position: fixed;
+  left: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  z-index: 500;
+  align-items: flex-start;
+}
+
+.sidebar-social {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 999px;
+  padding: 10px 12px;
+  color: #888ea8;
+  text-decoration: none;
+  cursor: pointer;
+  overflow: hidden;
+  max-width: 42px;
+  transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+  white-space: nowrap;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.sidebar-social:hover {
+  max-width: 160px;
+  gap: 8px;
+  padding: 10px 16px;
+  background: rgba(255, 140, 0, 0.08);
+  border-color: rgba(255, 140, 0, 0.35);
+  color: #ffb347;
+}
+
+.sidebar-label {
+  font-size: 13px;
+  font-weight: 600;
+  opacity: 0;
+  max-width: 0;
+  transition: all 0.35s cubic-bezier(0.23, 1, 0.32, 1);
+  overflow: hidden;
+}
+
+.sidebar-social:hover .sidebar-label {
+  opacity: 1;
+  max-width: 120px;
+}
+
+.sidebar-social[aria-label*="Instagram"]:hover {
+  background: rgba(225, 48, 108, 0.08);
+  border-color: rgba(225, 48, 108, 0.35);
+  color: #e1306c;
+}
+
+.sidebar-social[aria-label*="LinkedIn"]:hover {
+  background: rgba(10, 102, 194, 0.08);
+  border-color: rgba(10, 102, 194, 0.35);
+  color: #4d9de0;
+}
+
+.sidebar-social[aria-label*="X"]:hover {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.2);
+  color: #f0f0f0;
+}
+
+.sidebar-app {
+  border-style: dashed;
+  border-color: rgba(255, 140, 0, 0.2);
+  color: rgba(255, 140, 0, 0.5);
+  animation: appPulse 3s ease-in-out infinite;
+  cursor: default;
+}
+
+.sidebar-app:hover {
+  background: rgba(255, 140, 0, 0.06);
+  border-color: rgba(255, 140, 0, 0.4);
+  border-style: dashed;
+  color: #ffb347;
+}
+
+.sidebar-divider {
+  width: 1px;
+  height: 24px;
+  background: rgba(255, 255, 255, 0.08);
+  margin: 4px 0 4px 20px;
+}
+
+.mob-drawer {
+  position: fixed;
+  top: 0;
+  right: -100%;
+  width: min(320px, 85vw);
+  height: 100dvh;
+  min-height: 100vh;
+  background: #0a0a1a;
+  border-left: 1px solid rgba(255, 140, 0, 0.15);
+  z-index: 2000;
+  display: flex;
+  flex-direction: column;
+  padding: 80px 32px 40px;
+  gap: 8px;
+  transition: right 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.mob-drawer.open {
+  right: 0;
+}
+
+.mob-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  z-index: 1999;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.mob-overlay.open {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.mob-close {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: none;
+  border: none;
+  color: #888ea8;
+  font-size: 28px;
+  cursor: pointer;
+  line-height: 1;
+}
+
+.mob-nav {
+  display: flex;
+  flex-direction: column;
+}
+
+.mob-link {
+  display: block;
+  font-size: 20px;
+  font-weight: 600;
+  color: #888ea8;
+  text-decoration: none;
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  transition: color 0.2s ease;
+}
+
+.mob-link:hover {
+  color: #ff8c00;
+}
+
+.mob-cta-btn {
+  display: block;
+  margin-top: 32px;
+  background: linear-gradient(135deg, #ff8c00, #ff4500);
+  color: #fff;
+  font-size: 16px;
+  font-weight: 700;
+  padding: 14px 24px;
+  border-radius: 14px;
+  text-decoration: none;
+  text-align: center;
+}
+
+.section-container {
+  scroll-margin-top: 96px;
+}
+
+/* Swipeable hero image stack */
+.hero-preview {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: visible;
+  padding-right: 0;
+}
+
+.swipe-shell {
+  width: min(100%, 400px);
+  margin-left: auto;
+}
+
+.swipe-stack {
+  position: relative;
+  width: 380px;
+  max-width: 100%;
+  height: 520px;
+  margin-left: auto;
+  touch-action: pan-y;
+  user-select: none;
+}
+
+.swipe-card {
+  position: absolute;
+  inset: 0;
+  border-radius: 24px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  background: rgba(15, 18, 32, 0.85);
+  box-shadow: 0 20px 56px rgba(0, 0, 0, 0.45);
+  transform-origin: center center;
+  will-change: transform, opacity;
+}
+
+.swipe-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+}
+
+.swipe-overlay {
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  bottom: 12px;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(8, 12, 24, 0.5);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  padding: 10px 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.swipe-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: #f2f4ff;
+}
+
+.swipe-badge {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #ffd3a0;
+  border: 1px solid rgba(255, 140, 0, 0.55);
+  background: rgba(255, 140, 0, 0.14);
+  border-radius: 999px;
+  padding: 5px 10px;
+  white-space: nowrap;
+}
+
+.typing-indicator {
+  position: absolute;
+  left: 14px;
+  right: 14px;
+  bottom: 82px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: rgba(8, 12, 24, 0.54);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 999px;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  padding: 6px 12px;
+}
+
+.typing-indicator span {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #ff8c00;
+  animation: typingBounce 1.2s ease-in-out infinite;
+}
+
+.typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
+.typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
+
+.typing-indicator small {
+  font-size: 12px;
+  color: #9ea5c1;
+  margin-left: 6px;
+}
+
+@keyframes typingBounce {
+  0%,
+  60%,
+  100% {
+    transform: translateY(0);
+  }
+  30% {
+    transform: translateY(-5px);
+  }
+}
+
+.swipe-card.is-active {
+  opacity: 1;
+  transform: translateX(0) scale(1);
+  z-index: 10;
+}
+
+.swipe-card.is-next {
+  opacity: 0.92;
+  transform: translateX(18px) scale(0.95);
+  z-index: 9;
+}
+
+.swipe-card.is-third {
+  opacity: 0.72;
+  transform: translateX(34px) scale(0.9);
+  z-index: 8;
+}
+
+.swipe-card.is-hidden {
+  opacity: 0;
+  transform: translateX(120px) scale(0.86);
+  z-index: 1;
+}
+
+.swipe-card.is-swiping-left {
+  transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+  transform: translateX(-120%) rotate(-5deg) scale(0.96) !important;
+  opacity: 0 !important;
+}
+
+.swipe-card.is-swiping-right {
+  transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+  transform: translateX(120%) rotate(5deg) scale(0.96) !important;
+  opacity: 0 !important;
+}
+
+.swipe-card.is-enter-from-right {
+  transition: none !important;
+  transform: translateX(120%) scale(0.9);
+  opacity: 0;
+}
+
+.swipe-card.is-entering {
+  transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.swipe-dots {
+  margin-top: 14px;
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+}
+
+.swipe-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.25);
+  transition: transform 0.25s ease, background 0.25s ease;
+}
+
+.swipe-dot.active {
+  transform: scale(1.25);
+  background: var(--accent-primary);
+}
+
+.hero-card-stack,
+.hero-mini-card {
+  display: none !important;
+}
+
+@media (max-width: 980px) {
+  .launch-banner {
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    padding: 10px 14px;
+    gap: 10px;
+  }
+
+  .launch-logo {
+    font-size: 22px;
+  }
+
+  .launch-center {
+    font-size: 12px;
+  }
+
+  .hero-preview {
+    margin-top: 14px;
+  }
+
+  .desktop-nav {
+    top: 54px;
+    padding: 8px 10px;
+    gap: 6px;
+  }
+
+  .desktop-nav a {
+    font-size: 11px;
+    padding: 5px 8px;
+  }
+}
+
+@media (max-width: 860px) {
+  .swipe-shell {
+    margin: 0 auto;
+  }
+
+  .swipe-stack {
+    width: min(100%, 380px);
+    aspect-ratio: 19 / 26;
+    height: auto;
+    max-height: 520px;
+  }
+}
+
+@media (max-width: 640px) {
+  .launch-center {
+    font-size: 11px;
+    line-height: 1.4;
+    white-space: normal;
+    padding-inline: 0;
+  }
+
+  .hdr-btn {
+    max-width: none;
+  }
+
+  .site-footer {
+    padding: 48px 20px 24px;
+  }
+
+  .footer-inner {
+    flex-direction: column;
+    gap: 30px;
+    margin-bottom: 32px;
+  }
+
+  .footer-links {
+    gap: 32px;
+  }
+
+  .swipe-title {
+    font-size: 13px;
+  }
+
+  .swipe-badge {
+    font-size: 10px;
+  }
+
+  .avatar-proof {
+    flex-wrap: wrap;
+    justify-content: center;
+    text-align: center;
+  }
+
+}
+
+@media (max-width: 768px) {
+  .launch-banner {
+    grid-template-columns: auto 1fr auto;
+    grid-template-areas:
+      "logo spacer menu"
+      "message message message";
+    row-gap: 8px;
+    column-gap: 8px;
+    align-items: center;
+    padding: 10px 12px;
+    min-height: 88px;
+  }
+
+  .launch-left {
+    grid-area: logo;
+    justify-self: start;
+  }
+
+  .launch-center {
+    grid-area: message;
+    justify-self: stretch;
+    text-align: center;
+    white-space: normal;
+  }
+
+  .launch-right {
+    display: flex;
+    grid-area: menu;
+    justify-self: end;
+    align-items: center;
+  }
+
+  .ham-btn {
+    display: flex;
+    margin: 0;
+  }
+
+  .launch-right .hdr-btn-primary {
+    display: none;
+  }
+
+  .desktop-nav {
+    display: none;
+  }
+
+  .social-sidebar {
+    display: none;
+  }
+
+  .sticky-mob-cta {
+    display: block;
+  }
+
+  body {
+    padding-bottom: calc(92px + env(safe-area-inset-bottom));
+  }
+
+  .tn-region-card {
+    min-height: auto;
+  }
+
+  .section-label-indicator {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  #splash {
+    display: none !important;
+  }
+
+  .swipe-card,
+  .swipe-dot,
+  .hdr-btn {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+
+  .mob-drawer,
+  .mob-overlay,
+  .sticky-mob-cta,
+  .faq-a,
+  .faq-icon,
+  #scrollBar {
+    transition: none !important;
+  }
+
+  .wc-dot {
+    animation: none !important;
+  }
+
+  .exit-popup,
+  .marquee-track {
+    transition: none !important;
+    animation: none !important;
+  }
+
+  .app-soon-dot,
+  .sidebar-app,
+  .acc-tag {
+    animation: none !important;
+  }
+}
+
+/* Premium Refactor Overrides */
+main > section + section::before {
+  display: none;
+}
+
+.noise-overlay {
+  opacity: 0.01;
+}
+
+.bg-blobs {
+  opacity: 0.015;
+}
+
+.blob {
+  filter: blur(140px);
+  animation: none !important;
+  transform: none !important;
+}
+
+.blob-1,
+.blob-4 {
+  opacity: 0.013;
+}
+
+.blob-2,
+.blob-5 {
+  opacity: 0.011;
+}
+
+.blob-3,
+.blob-6 {
+  opacity: 0.009;
+}
+
+.gradient-text {
+  background: linear-gradient(to right, #ffffff 0%, #f1f5f9 62%, #cbd5e1 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: -0.02em;
+}
+
+.hero-title {
+  margin-top: 20px;
+  display: grid;
+  gap: 8px;
+  font-size: clamp(42px, 5.3vw, 78px);
+  line-height: 0.98;
+}
+
+.hero-title-main {
+  color: #ffffff;
+}
+
+.hero-title-muted {
+  background: linear-gradient(to right, #f8fafc, #cbd5e1);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-size: clamp(24px, 2.4vw, 34px);
+  font-weight: 650;
+  line-height: 1.1;
+}
+
+.hero-subtitle {
+  color: #e2e8f0;
+  max-width: 56ch;
+  line-height: 1.62;
+}
+
+.hero-subline {
+  color: #94a3b8;
+}
+
+.trust-pill,
+.badge-chip {
+  color: #f0b35f;
+  background: rgba(245, 158, 11, 0.1);
+  border-color: rgba(245, 158, 11, 0.28);
+}
+
+.glass-card,
+.feature-card,
+.perk-card {
+  background: rgba(18, 19, 24, 0.95);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.04) inset,
+    0 14px 26px rgba(0, 0, 0, 0.38);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  transition:
+    transform 0.3s var(--transition-smooth),
+    border-color 0.3s ease,
+    box-shadow 0.3s var(--transition-smooth);
+}
+
+.glass-card::before {
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(circle, rgba(245, 158, 11, 0.08) 0%, transparent 72%);
+  transition: opacity 0.22s ease;
+}
+
+.glass-card::after,
+.feature-card::after,
+.perk-card::after {
+  display: none !important;
+}
+
+.glass-card:hover,
+.feature-card:hover,
+.perk-card:hover {
+  transform: scale(1.015);
+  border-color: rgba(255, 255, 255, 0.16);
+  background: #16171d;
+  box-shadow:
+    0 18px 34px rgba(0, 0, 0, 0.42),
+    0 0 0 1px rgba(245, 158, 11, 0.18);
+}
+
+.cards-grid {
+  margin-top: 30px;
+}
+
+.section-subtitle,
+.glass-card p {
+  color: #94a3b8;
+}
+
+.glass-card h3,
+.feature-card h3 {
+  color: #ffffff;
+}
+
+.card-expand-indicator {
+  margin-left: auto;
+  color: #7f8aa1;
+  font-size: 14px;
+  line-height: 1;
+  transition:
+    transform 0.28s cubic-bezier(0.16, 1, 0.3, 1),
+    color 0.22s ease;
+}
+
+.compact-bento-card:hover .card-expand-indicator,
+.compact-bento-card.is-expanded .card-expand-indicator {
+  color: #ffffff;
+  transform: translateX(3px) rotate(8deg);
+}
+
+.card-deep-detail {
+  max-height: 0;
+  opacity: 0;
+  transform: translateY(8px);
+  overflow: hidden;
+  margin-top: 0;
+  transition:
+    max-height 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+    opacity 0.25s ease,
+    transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.glass-card:hover .card-deep-detail,
+.compact-bento-card.is-expanded .card-deep-detail {
+  max-height: 80px;
+  opacity: 1;
+  transform: translateY(0);
+  margin-top: 12px;
+  color: var(--text-secondary);
+}
+
+.bento-grid-standard {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.bento-7 {
+  grid-column: span 7;
+}
+
+.bento-5 {
+  grid-column: span 5;
+}
+
+.bento-12 {
+  grid-column: span 12;
+}
+
+.icon-glyph,
+.card-icon,
+.feature-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.03);
+  color: #f0b35f;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.feature-card h3 {
+  gap: 10px;
+}
+
+.feature-card:hover .feature-icon,
+.feature-card:hover .icon-glyph {
+  transform: none;
+}
+
+.feature-disclosure-grid {
+  align-items: start;
+}
+
+.feature-disclosure {
+  padding: 22px 22px 20px;
+}
+
+.feature-card-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.detail-chevron {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.13);
+  background: rgba(255, 255, 255, 0.02);
+  color: #cbd5e1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition:
+    border-color 0.22s ease,
+    background 0.22s ease,
+    color 0.22s ease;
+}
+
+.detail-chevron svg {
+  width: 14px;
+  height: 14px;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.detail-chevron:hover,
+.detail-chevron:focus-visible {
+  color: #ffffff;
+  border-color: rgba(245, 158, 11, 0.42);
+  background: rgba(245, 158, 11, 0.08);
+}
+
+.card-extra-info {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  margin-top: 0;
+  color: #94a3b8;
+  font-size: 14px;
+  line-height: 1.6;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.feature-card.is-open .card-extra-info {
+  max-height: 120px;
+  opacity: 1;
+  margin-top: 12px;
+}
+
+.feature-card.is-open .detail-chevron svg {
+  transform: rotate(180deg);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .feature-disclosure:hover .card-extra-info {
+    max-height: 120px;
+    opacity: 1;
+    margin-top: 12px;
+  }
+
+  .feature-disclosure:hover .detail-chevron svg {
+    transform: rotate(180deg);
+  }
+}
+
+/* Pass 4 premium interactive modules */
+.stories-row {
+  margin-top: 28px;
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  padding-bottom: 8px;
+  scrollbar-width: none;
+}
+
+.stories-row::-webkit-scrollbar {
+  display: none;
+}
+
+.story-item {
+  min-width: 78px;
+  flex: 0 0 78px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  color: #94a3b8;
+}
+
+.story-avatar-ring {
+  width: 64px;
+  height: 64px;
+  min-width: 64px;
+  aspect-ratio: 1 / 1;
+  box-sizing: border-box;
+  border-radius: 50%;
+  padding: 2px;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  transition:
+    box-shadow 0.3s ease,
+    filter 0.3s ease;
+}
+
+.story-item.unseen .story-avatar-ring {
+  background: linear-gradient(135deg, #ff8c00, #a855f7);
+  box-shadow:
+    0 0 0 1px rgba(255, 140, 0, 0.42),
+    0 10px 18px rgba(168, 85, 247, 0.22);
+}
+
+.story-item.seen .story-avatar-ring {
+  background: rgba(255, 255, 255, 0.02);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  box-shadow: none;
+}
+
+.story-avatar-img {
+  width: 100%;
+  height: 100%;
+  aspect-ratio: 1 / 1;
+  border-radius: 50%;
+  object-fit: cover;
+  display: block;
+  border: 2px solid #121318;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.story-item:hover .story-avatar-img,
+.story-item:focus-within .story-avatar-img {
+  transform: scale(1.08);
+}
+
+.story-item:hover .story-avatar-ring,
+.story-item:focus-within .story-avatar-ring {
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.22),
+    0 6px 12px rgba(0, 0, 0, 0.28);
+  filter: saturate(0.95);
+}
+
+.story-item small {
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #8e98ac;
+}
+
+.stats-grid {
+  gap: 18px;
+}
+
+.stat-ring-card {
+  text-align: center;
+  padding: 24px 20px 18px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.ring-shell {
+  position: relative;
+  width: 92px;
+  height: 92px;
+  display: grid;
+  place-items: center;
+}
+
+.ring-svg {
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+
+.ring-bg,
+.ring-fill {
+  fill: none;
+  stroke-width: 3;
+}
+
+.ring-bg {
+  stroke: rgba(255, 255, 255, 0.05);
+}
+
+.ring-fill {
+  stroke: #f0b35f;
+  stroke-linecap: round;
+  filter: drop-shadow(0 0 8px rgba(245, 158, 11, 0.36));
+  transition: stroke-dashoffset 1.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.ring-num {
+  margin: 0;
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-size: clamp(24px, 3vw, 32px);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: #ffffff;
+  background: none;
+  -webkit-text-fill-color: initial;
+}
+
+.ring-label {
+  margin-top: 4px;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #94a3b8;
+}
+
+.vision-timeline {
+  --timeline-fill: 25%;
+  margin-top: 30px;
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+  padding-top: 44px;
+}
+
+.timeline-track {
+  position: absolute;
+  left: 8%;
+  right: 8%;
+  top: 18px;
+  height: 2px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.1);
+  overflow: hidden;
+}
+
+.timeline-fill {
+  height: 100%;
+  width: var(--timeline-fill);
+  background: linear-gradient(90deg, #f8d38f, #f59e0b);
+  transition: width 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.phase-card {
+  text-align: left;
+  padding: 14px 16px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.02);
+  transition:
+    border-color 0.3s ease,
+    background 0.3s ease,
+    transform 0.3s ease;
+}
+
+.phase-card:hover,
+.phase-card:focus-visible {
+  border-color: rgba(245, 158, 11, 0.32);
+}
+
+.phase-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  margin: 0 0 10px;
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  background: #6b7280;
+  transition:
+    transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.3s ease,
+    background 0.3s ease;
+}
+
+.phase-dot.is-active {
+  background: #f0b35f;
+  transform: scale(1.3);
+  box-shadow:
+    0 0 0 1px rgba(255, 191, 102, 0.82),
+    0 0 0 6px rgba(245, 158, 11, 0.16);
+}
+
+.phase-card h3 {
+  margin: 0;
+  font-size: 16px;
+  color: #ffffff;
+}
+
+.phase-desc {
+  margin-top: 6px;
+  color: #94a3b8;
+  font-size: 13px;
+  line-height: 1.5;
+  opacity: 0.3;
+  transform: translateY(6px);
+  transition:
+    opacity 0.3s ease,
+    transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.phase-card.is-active {
+  border-color: rgba(245, 158, 11, 0.36);
+  background: rgba(245, 158, 11, 0.06);
+}
+
+.phase-card.is-active .phase-desc {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.tn-upgrade {
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 18px;
+  background: linear-gradient(180deg, rgba(22, 23, 29, 0.95), rgba(17, 18, 24, 0.95));
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.05) inset,
+    0 16px 32px rgba(0, 0, 0, 0.35);
+  padding: clamp(20px, 2.8vw, 30px);
+}
+
+.tn-label {
+  color: #9ea7b8;
+  letter-spacing: 0.12em;
+}
+
+.tn-headline {
+  margin-top: 10px;
+  font-size: clamp(28px, 3.4vw, 44px);
+  line-height: 1.06;
+  letter-spacing: -0.02em;
+  background: linear-gradient(to right, #ffffff 0%, #c9ced8 68%, #8f97a6 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.tn-subtext {
+  color: #a5adbd;
+  max-width: 62ch;
+}
+
+.tn-hub-wrap,
+.tn-connectors {
+  display: none;
+}
+
+.tn-regions-wrap {
+  margin-top: 18px;
+  padding-top: 0;
+}
+
+.tn-region-grid {
+  display: grid;
+  grid-template-columns: 4fr 5fr 3fr;
+  gap: 14px;
+  align-items: start;
+}
+
+.tn-region-card {
+  min-height: 0;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.02);
+  padding: 14px 14px 8px;
+}
+
+.tn-region-compact {
+  padding: 12px 12px 6px;
+}
+
+.tn-region-card h4 {
+  margin: 0;
+  color: #e2e6ef;
+  font-size: 13px;
+  letter-spacing: 0.1em;
+}
+
+.tn-chip-list {
+  margin-top: 10px;
+  display: grid;
+  gap: 0;
+}
+
+.tn-campus-chip {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  border: 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 0;
+  padding: 10px 0;
+  background: transparent;
+  transform: none !important;
+}
+
+.tn-region-compact .tn-campus-chip {
+  padding: 8px 0;
+}
+
+.tn-chip-list .tn-campus-chip:last-child {
+  border-bottom: 0;
+}
+
+.tn-campus-chip:hover {
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.tn-campus-name {
+  color: #f4f6fb;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.tn-region-compact .tn-campus-name {
+  font-size: 12px;
+}
+
+.tn-campus-status {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  border-radius: 999px;
+  padding: 3px 8px;
+  text-transform: lowercase;
+}
+
+.tn-campus-status.target::before,
+.tn-campus-status.roadmap::before,
+.tn-campus-status.expansion::before {
+  content: "[";
+  margin-right: 1px;
+}
+
+.tn-campus-status.target::after,
+.tn-campus-status.roadmap::after,
+.tn-campus-status.expansion::after {
+  content: "]";
+  margin-left: 1px;
+}
+
+.tn-campus-status.target {
+  color: #f3bc76;
+  background: rgba(245, 158, 11, 0.12);
+  border: 1px solid rgba(245, 158, 11, 0.33);
+}
+
+.tn-campus-status.roadmap {
+  color: #d7deed;
+  background: rgba(148, 163, 184, 0.12);
+  border: 1px solid rgba(148, 163, 184, 0.36);
+}
+
+.tn-campus-status.expansion {
+  color: #d7deed;
+  background: rgba(115, 129, 151, 0.16);
+  border: 1px solid rgba(115, 129, 151, 0.34);
+}
+
+.tn-stats {
+  margin-top: 20px;
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.tn-stat-pill {
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.02);
+  color: #dce1ec;
+}
+
+.tn-stat-pill .num {
+  color: #f0b35f;
+}
+
+.hero-subtitle {
+  max-width: 44ch;
+  font-size: clamp(17px, 2.1vw, 18px);
+  color: #d7dee8;
+}
+
+.trust-pills {
+  margin-top: 14px;
+  gap: 8px;
+}
+
+.trust-pill {
+  font-size: 12px;
+  padding: 7px 12px;
+}
+
+.avatar-proof {
+  margin-top: 14px;
+  margin-bottom: 14px;
+}
+
+.avatar-stack {
+  display: flex;
+  align-items: center;
+}
+
+.av {
+  width: 40px;
+  height: 40px;
+  min-width: 40px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 2px solid #05050f;
+  margin-left: -9px;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.14);
+  background: #101116;
+}
+
+.av:first-child {
+  margin-left: 0;
+}
+
+.avatar-stack:hover .av {
+  margin-left: -5px;
+}
+
+.av-img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  transform: scale(1.04);
+}
+
+.proof-text {
+  font-size: 14px;
+}
+
+.tn-top-meta {
+  margin-top: 14px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.tn-meta-chip {
+  border: 1px solid rgba(255, 255, 255, 0.11);
+  background: rgba(255, 255, 255, 0.03);
+  color: #c8d0e0;
+  border-radius: 999px;
+  padding: 6px 10px;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.tn-region-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.tn-region-count {
+  padding: 4px 8px;
+  border-radius: 999px;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  color: #f4cd8d;
+  background: rgba(245, 158, 11, 0.12);
+  border: 1px solid rgba(245, 158, 11, 0.34);
+  text-transform: uppercase;
+}
+
+.tn-compact-panel {
+  margin-top: 10px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding-top: 10px;
+}
+
+.tn-compact-title {
+  color: #aab3c5;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.tn-compact-line {
+  margin-top: 6px;
+  color: #cfd6e5;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.tn-compact-line span {
+  color: #f0b35f;
+  font-weight: 700;
+  margin-right: 6px;
+}
+
+@media (max-width: 1100px) {
+  .tn-region-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .tn-region-compact {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 768px) {
+  .vision-timeline {
+    grid-template-columns: 1fr;
+    padding-top: 14px;
+  }
+
+  .timeline-track {
+    display: none;
+  }
+
+  .tn-region-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .tn-region-compact {
+    grid-column: auto;
+  }
+}
+
+.countdown-strip {
+  padding: 18px 20px;
+  background: transparent;
+  border: 0;
+}
+
+.countdown-ribbon {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 14px 20px;
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 14px;
+  background: linear-gradient(90deg, rgba(22, 23, 29, 0.96), rgba(18, 19, 25, 0.96));
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.cd-label {
+  margin: 0;
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  color: #9ca6b8;
+}
+
+.cd-grid {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: nowrap;
+}
+
+.cd-block {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 7px;
+  padding: 0;
+  min-width: 0;
+  background: transparent;
+  border: 0;
+}
+
+.cd-block span {
+  font-size: clamp(22px, 3.2vw, 36px);
+  line-height: 1;
+  font-weight: 750;
+  color: #f8fafc;
+  font-variant-numeric: tabular-nums;
+  background: none;
+  -webkit-text-fill-color: initial;
+}
+
+.cd-block label {
+  margin-top: 0;
+  font-size: 11px;
+  color: #8991a3;
+  letter-spacing: 0.08em;
+}
+
+.cd-sep {
+  font-size: 22px;
+  color: #646d7e;
+  margin: 0;
+}
+
+.reveal {
+  transform: translateY(15px);
+  transition:
+    opacity 0.48s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.48s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal-stagger:nth-child(1) { transition-delay: 0.03s; }
+.reveal-stagger:nth-child(2) { transition-delay: 0.06s; }
+.reveal-stagger:nth-child(3) { transition-delay: 0.09s; }
+.reveal-stagger:nth-child(4) { transition-delay: 0.12s; }
+.reveal-stagger:nth-child(5) { transition-delay: 0.15s; }
+.reveal-stagger:nth-child(6) { transition-delay: 0.18s; }
+.reveal-stagger:nth-child(7) { transition-delay: 0.21s; }
+.reveal-stagger:nth-child(8) { transition-delay: 0.24s; }
+.reveal-stagger:nth-child(9) { transition-delay: 0.27s; }
+.reveal-stagger:nth-child(10) { transition-delay: 0.3s; }
+.reveal-stagger:nth-child(11) { transition-delay: 0.33s; }
+.reveal-stagger:nth-child(12) { transition-delay: 0.36s; }
+
+.campus-section {
+  text-align: left;
+}
+
+.campus-feature {
+  padding: clamp(22px, 3.5vw, 34px);
+}
+
+.campus-feature-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
+  gap: 22px;
+  align-items: stretch;
+}
+
+.campus-feature-main {
+  display: grid;
+  gap: 14px;
+}
+
+.campus-badge {
+  margin: 0;
+  width: fit-content;
+}
+
+.campus-sub {
+  margin: 0;
+  font-size: 16px;
+  max-width: 60ch;
+  color: #a5adc0;
+}
+
+.campus-kpi-row {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.campus-kpi {
+  padding: 8px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.11);
+  border-radius: 999px;
+  font-size: 13px;
+  color: #ced3df;
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.campus-kpi strong {
+  color: #ffffff;
+}
+
+.campus-feature-side {
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 14px;
+  padding: 14px 14px 6px;
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.campus-feature-side h3 {
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #d0d5df;
+  margin-bottom: 10px;
+}
+
+.campus-perks-list {
+  display: grid;
+}
+
+.campus-perk-row {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 10px;
+  padding: 10px 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.campus-perk-row:first-child {
+  border-top: 0;
+}
+
+.campus-perk-icon {
+  margin-top: 1px;
+}
+
+.campus-perk-text {
+  color: #b6bece;
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+.campus-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.btn-campus {
+  margin-top: 0;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #f59e0b, #f97316);
+  animation: none;
+}
+
+.campus-note {
+  margin: 0;
+}
+
+.site-footer {
+  background: #0c0d11;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.footer-tagline {
+  color: #94a3b8;
+}
+
+.footer-links {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(140px, 1fr));
+  gap: 28px;
+}
+
+.footer-col-title {
+  color: #ffffff;
+}
+
+.footer-col a {
+  color: #94a3b8;
+}
+
+.footer-col a:hover {
+  color: #ffffff;
+}
+
+.footer-bottom {
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  background: #090a0d;
+  border-radius: 10px;
+  padding: 14px 18px;
+  color: #94a3b8;
+}
+
+.footer-social-row {
+  display: none;
+}
+
+@media (max-width: 1024px) {
+  .bento-grid {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+
+  .bento-grid > article {
+    grid-column: span 3;
+  }
+
+  .bento-grid > .bento-wide {
+    grid-column: span 6;
+  }
+
+  .countdown-ribbon {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .campus-feature-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .bento-grid-standard {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+
+  .bento-7,
+  .bento-5,
+  .bento-12 {
+    grid-column: span 6;
+  }
+}
+
+@media (max-width: 768px) {
+  .bento-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .bento-grid > article,
+  .bento-grid > .bento-wide {
+    grid-column: span 1;
+  }
+
+  .hero-title-muted {
+    font-size: clamp(20px, 6vw, 27px);
+  }
+
+  .cd-grid {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .bento-grid-standard {
+    grid-template-columns: 1fr;
+  }
+
+  .bento-7,
+  .bento-5,
+  .bento-12 {
+    grid-column: span 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .blob {
+    animation: none !important;
+  }
+
+  .reveal {
+    transition: none !important;
+  }
+}
+    </style>
+  </head>
+  <body>
+    <div id="splash" aria-hidden="true">
+      <div class="splash-logo">sparq</div>
+      <div class="splash-sub">student network</div>
+    </div>
+    <div id="scrollBar" aria-hidden="true"></div>
+    <div class="noise-overlay" aria-hidden="true"></div>
+    <div class="bg-blobs" aria-hidden="true">
+      <div class="blob blob-1"></div>
+      <div class="blob blob-2"></div>
+      <div class="blob blob-3"></div>
+      <div class="blob blob-4"></div>
+      <div class="blob blob-5"></div>
+      <div class="blob blob-6"></div>
+    </div>
+    <div class="cursor-glow" aria-hidden="true"></div>
+    <div class="section-label-indicator" id="sectionLabel" aria-live="polite"></div>
+
+        <header class="launch-banner" role="banner">
+      <div class="launch-left">
+        <span class="launch-logo">sparq</span>
+      </div>
+      <div class="launch-center">
+        <span>&#10022; sparq launches mid-august 2026 &#183;</span>
+        <a
+          class="launch-link"
+          href="https://docs.google.com/forms/d/e/1FAIpQLSfEAuiqE5K5r82RyXux6ZOF4Bv3Ge0uu4KMNTuZxD_LHVMYlg/viewform?usp=header"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Reserve your spot on sparq"
+          >Reserve your spot &#8594;</a
+        >
+      </div>
+      <div class="launch-right">
+        <a
+          class="hdr-btn hdr-btn-primary"
+          href="https://docs.google.com/forms/d/e/1FAIpQLSfEAuiqE5K5r82RyXux6ZOF4Bv3Ge0uu4KMNTuZxD_LHVMYlg/viewform?usp=header"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Join waitlist"
+          >Join waitlist</a
+        >
+        <button class="ham-btn" id="hamBtn" aria-label="Open navigation menu" aria-expanded="false">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </header>
+    <nav class="desktop-nav" aria-label="Section navigation">
+      <a href="#intro">Home</a>
+      <a href="#meet-people">Meet People</a>
+      <a href="#groups">Groups</a>
+      <a href="#intercollege">Inter-college</a>
+      <a href="#features">Features</a>
+      <a href="#vision">Vision</a>
+      <a href="#campus">Campus</a>
+      <a href="#faq">FAQ</a>
+      <a href="#join">Join</a>
+    </nav>
+    <div class="mob-drawer" id="mobDrawer" aria-hidden="true">
+      <button class="mob-close" id="mobClose" aria-label="Close menu">&times;</button>
+      <nav class="mob-nav">
+        <a href="#intro" class="mob-link">Intro</a>
+        <a href="#meet-people" class="mob-link">Meet People</a>
+        <a href="#groups" class="mob-link">Groups</a>
+        <a href="#intercollege" class="mob-link">Inter-college</a>
+        <a href="#features" class="mob-link">Features</a>
+        <a href="#vision" class="mob-link">Vision</a>
+        <a href="#campus" class="mob-link">Campus</a>
+        <a href="#faq" class="mob-link">FAQ</a>
+        <a href="#join" class="mob-link">Join</a>
+      </nav>
+      <a
+        href="https://docs.google.com/forms/d/e/1FAIpQLSfEAuiqE5K5r82RyXux6ZOF4Bv3Ge0uu4KMNTuZxD_LHVMYlg/viewform?usp=header"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="mob-cta-btn"
+        aria-label="Join the sparq waitlist"
+      >
+        Join the waitlist &#10022;
+      </a>
+    </div>
+    <div class="mob-overlay" id="mobOverlay"></div>
+
+    <main>
+      <section id="intro" class="hero section-container">
+        <div class="hero-layout">
+          <div class="hero-copy">
+            <p class="hero-badge hero-seq" data-hero-step="1">&#10022; college-first student network</p>
+            <h1 class="hero-title">
+              <span class="hero-title-main">The student network built inside colleges.</span>
+            </h1>
+            <p class="hero-subtitle hero-seq" data-hero-step="3">
+              Find serious study partners, build cross-campus communities, and connect with people who match your vibe, goals, and schedule.
+            </p>
+            <div class="trust-pills hero-seq" data-hero-step="5">
+              <span class="trust-pill">College-email verified</span>
+              <span class="trust-pill">Goal-aligned matching</span>
+              <span class="trust-pill">Cross-campus rooms</span>
+            </div>
+            <div class="avatar-proof hero-seq" data-hero-step="6">
+              <div class="avatar-stack" aria-hidden="true">
+                <div class="av has-photo"><img class="av-img" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=120&q=80" alt="" loading="lazy" /></div>
+                <div class="av has-photo"><img class="av-img" src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=120&q=80" alt="" loading="lazy" /></div>
+                <div class="av has-photo"><img class="av-img" src="https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?auto=format&fit=crop&w=120&q=80" alt="" loading="lazy" /></div>
+                <div class="av has-photo"><img class="av-img" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=120&q=80" alt="" loading="lazy" /></div>
+                <div class="av has-photo"><img class="av-img" src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&w=120&q=80" alt="" loading="lazy" /></div>
+              </div>
+              <span class="proof-text">
+                <span id="wlCount2">2,847</span> students already waiting
+              </span>
+            </div>
+            <div class="hero-ctas hero-seq" data-hero-step="6">
+              <a
+                href="https://docs.google.com/forms/d/e/1FAIpQLSfEAuiqE5K5r82RyXux6ZOF4Bv3Ge0uu4KMNTuZxD_LHVMYlg/viewform?usp=header"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="btn-primary"
+                aria-label="Join the sparq waitlist"
+                >Join the waitlist</a
+              >
+              <a
+                href="https://docs.google.com/forms/d/e/1FAIpQLSfEAuiqE5K5r82RyXux6ZOF4Bv3Ge0uu4KMNTuZxD_LHVMYlg/viewform?usp=header"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="btn-secondary"
+                aria-label="Bring sparq to my campus"
+                >Bring sparq to my campus</a
+              >
+            </div>
+            <div class="app-soon-badge hero-seq" data-hero-step="6">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <rect x="5" y="2" width="14" height="20" rx="3"/>
+                <circle cx="12" cy="17" r="1" fill="currentColor" stroke="none"/>
+              </svg>
+              <span>sparq app &#8212; coming soon</span>
+              <span class="app-soon-dot"></span>
+            </div>
+          </div>
+
+                    <div class="hero-preview hero-seq" data-hero-step="3">
+            <div class="swipe-shell" aria-label="sparq product previews">
+              <div class="swipe-stack" id="heroSwipeStack">
+                <article class="swipe-card" data-label="Study Partner Match" data-badge="VERIFIED">
+                  <img
+                    src="about_sparq_images/WhatsApp%20Image%202026-05-13%20at%207.05.53%20PM.jpeg"
+                    alt="Study Partner Match preview"
+                    loading="eager"
+                    draggable="false"
+                  />
+                  <div class="swipe-overlay">
+                    <p class="swipe-title">Study Partner Match</p>
+                    <span class="swipe-badge">VERIFIED</span>
+                  </div>
+                  <div class="typing-indicator" aria-label="Someone is typing">
+                    <span></span><span></span><span></span>
+                    <small>Riya is typing a message...</small>
+                  </div>
+                </article>
+                <article class="swipe-card" data-label="Campus Community Room" data-badge="LIVE">
+                  <img
+                    src="about_sparq_images/WhatsApp%20Image%202026-05-13%20at%207.05.54%20PM.jpeg"
+                    alt="Campus Community Room preview"
+                    loading="lazy"
+                    draggable="false"
+                  />
+                  <div class="swipe-overlay">
+                    <p class="swipe-title">Campus Community Room</p>
+                    <span class="swipe-badge">LIVE</span>
+                  </div>
+                </article>
+                <article class="swipe-card" data-label="Hackathon Sprint Pod" data-badge="NEW">
+                  <img
+                    src="about_sparq_images/WhatsApp%20Image%202026-05-13%20at%207.05.55%20PM.jpeg"
+                    alt="Hackathon Sprint Pod preview"
+                    loading="lazy"
+                    draggable="false"
+                  />
+                  <div class="swipe-overlay">
+                    <p class="swipe-title">Hackathon Sprint Pod</p>
+                    <span class="swipe-badge">NEW</span>
+                  </div>
+                </article>
+                <article class="swipe-card" data-label="Game Night Squad" data-badge="LIVE TONIGHT">
+                  <img
+                    src="about_sparq_images/WhatsApp%20Image%202026-05-13%20at%207.05.56%20PM.jpeg"
+                    alt="Game Night Squad preview"
+                    loading="lazy"
+                    draggable="false"
+                  />
+                  <div class="swipe-overlay">
+                    <p class="swipe-title">Game Night Squad</p>
+                    <span class="swipe-badge">LIVE TONIGHT</span>
+                  </div>
+                </article>
+                <article class="swipe-card" data-label="Inter-College Friends" data-badge="1.2K JOINED">
+                  <img
+                    src="about_sparq_images/WhatsApp%20Image%202026-05-13%20at%207.05.57%20PM.jpeg"
+                    alt="Inter-College Friends preview"
+                    loading="lazy"
+                    draggable="false"
+                  />
+                  <div class="swipe-overlay">
+                    <p class="swipe-title">Inter-College Friends</p>
+                    <span class="swipe-badge">1.2K JOINED</span>
+                  </div>
+                </article>
+                <article class="swipe-card" data-label="Campus Stories" data-badge="NEW DROP">
+                  <img
+                    src="about_sparq_images/WhatsApp%20Image%202026-05-14%20at%203.49.47%20PM.jpeg"
+                    alt="Campus Stories preview"
+                    loading="lazy"
+                    draggable="false"
+                  />
+                  <div class="swipe-overlay">
+                    <p class="swipe-title">Campus Stories</p>
+                    <span class="swipe-badge">NEW DROP</span>
+                  </div>
+                </article>
+                <article class="swipe-card" data-label="Study Sessions" data-badge="LIVE NOW">
+                  <img
+                    src="about_sparq_images/WhatsApp%20Image%202026-05-14%20at%203.49.48%20PM.jpeg"
+                    alt="Study Sessions preview"
+                    loading="lazy"
+                    draggable="false"
+                  />
+                  <div class="swipe-overlay">
+                    <p class="swipe-title">Study Sessions</p>
+                    <span class="swipe-badge">LIVE NOW</span>
+                  </div>
+                </article>
+                <article class="swipe-card" data-label="City Event Crew" data-badge="TRENDING">
+                  <img
+                    src="about_sparq_images/WhatsApp%20Image%202026-05-14%20at%203.49.49%20PM.jpeg"
+                    alt="City Event Crew preview"
+                    loading="lazy"
+                    draggable="false"
+                  />
+                  <div class="swipe-overlay">
+                    <p class="swipe-title">City Event Crew</p>
+                    <span class="swipe-badge">TRENDING</span>
+                  </div>
+                </article>
+                <article class="swipe-card" data-label="Project Collab" data-badge="ACTIVE">
+                  <img
+                    src="about_sparq_images/WhatsApp%20Image49.48%20PM.jpeg"
+                    alt="Project Collab preview"
+                    loading="lazy"
+                    draggable="false"
+                  />
+                  <div class="swipe-overlay">
+                    <p class="swipe-title">Project Collab</p>
+                    <span class="swipe-badge">ACTIVE</span>
+                  </div>
+                </article>
+                <article class="swipe-card" data-label="Game Lounge" data-badge="NIGHT MODE">
+                  <img
+                    src="about_sparq_images/49.48%20PM.jpeg"
+                    alt="Game Lounge preview"
+                    loading="lazy"
+                    draggable="false"
+                  />
+                  <div class="swipe-overlay">
+                    <p class="swipe-title">Game Lounge</p>
+                    <span class="swipe-badge">NIGHT MODE</span>
+                  </div>
+                </article>
+                <article class="swipe-card" data-label="Network Vibes" data-badge="FRESH">
+                  <img
+                    src="about_sparq_images/WhatsApp%20Image%20PM.jpeg"
+                    alt="Network Vibes preview"
+                    loading="lazy"
+                    draggable="false"
+                  />
+                  <div class="swipe-overlay">
+                    <p class="swipe-title">Network Vibes</p>
+                    <span class="swipe-badge">FRESH</span>
+                  </div>
+                </article>
+              </div>
+              <div class="swipe-dots" id="heroSwipeDots" aria-hidden="true"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="countdown-strip" aria-label="Launch countdown">
+        <div class="countdown-ribbon reveal">
+          <p class="cd-label">Launch countdown &#183; Mid-August 2026</p>
+          <div id="countdown" class="cd-grid">
+            <div class="cd-block"><span id="cd-d">00</span><label>days</label></div>
+            <div class="cd-sep">:</div>
+            <div class="cd-block"><span id="cd-h">00</span><label>hours</label></div>
+            <div class="cd-sep">:</div>
+            <div class="cd-block"><span id="cd-m">00</span><label>minutes</label></div>
+            <div class="cd-sep">:</div>
+            <div class="cd-block"><span id="cd-s">00</span><label>seconds</label></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="meet-people" class="section-container">
+        <p class="section-label reveal">Meet People</p>
+        <h2 class="gradient-text reveal">Meet people who feel like your kind.</h2>
+        <p class="section-subtitle reveal">
+          College becomes better when you find people who match your energy, goals, timing, and
+          interests.
+        </p>
+        <div class="cards-grid bento-grid-standard">
+          <article class="glass-card compact-bento-card bento-7 reveal reveal-stagger">
+            <h3><span class="card-icon">&#9678;</span><span class="card-title-text">Study partner</span><span class="card-expand-indicator" aria-hidden="true">&#8594;</span></h3>
+            <p>Find someone serious about the same subjects, exams, or goals.</p>
+            <p class="card-deep-detail">Filter by branch, year, and prep timeline to get high-signal connections who study the way you do.</p>
+          </article>
+          <article class="glass-card compact-bento-card bento-5 reveal reveal-stagger">
+            <h3><span class="card-icon">&#9702;</span><span class="card-title-text">Same vibe friend</span><span class="card-expand-indicator" aria-hidden="true">&#8594;</span></h3>
+            <p>Meet students who match your personality, interests, and college life.</p>
+            <p class="card-deep-detail">Discover people by interests and social energy so conversations start naturally instead of feeling forced.</p>
+          </article>
+          <article class="glass-card compact-bento-card bento-5 reveal reveal-stagger">
+            <h3><span class="card-icon">&#9638;</span><span class="card-title-text">Gaming buddy</span><span class="card-expand-indicator" aria-hidden="true">&#8594;</span></h3>
+            <p>Find people for BGMI, Valorant, FIFA, chess, casual games, and late-night sessions.</p>
+            <p class="card-deep-detail">Join fast game-specific queues and build recurring squads for consistent sessions across hostels and campuses.</p>
+          </article>
+          <article class="glass-card compact-bento-card bento-7 reveal reveal-stagger">
+            <h3><span class="card-icon">&#9703;</span><span class="card-title-text">Project teammate</span><span class="card-expand-indicator" aria-hidden="true">&#8594;</span></h3>
+            <p>Build teams for assignments, hackathons, startups, and technical projects.</p>
+            <p class="card-deep-detail">Find collaborators with complementary skills across design, development, research, and pitching workflows.</p>
+          </article>
+          <article class="glass-card compact-bento-card bento-12 reveal reveal-stagger">
+            <h3><span class="card-icon">&#9643;</span><span class="card-title-text">Campus support network</span><span class="card-expand-indicator" aria-hidden="true">&#8594;</span></h3>
+            <p>Connect with event partners and senior guides for smoother campus life and career momentum.</p>
+            <p class="card-deep-detail">Get senior guidance, practical tips, and accountability loops for internships, interviews, and campus transitions.</p>
+          </article>
+        </div>
+      </section>
+
+      <section id="groups" class="section-container">
+        <p class="section-label reveal">Groups</p>
+        <h2 class="gradient-text reveal">Create groups for study, games, clubs, and everything college.</h2>
+        <p class="section-subtitle reveal">
+          sparq groups are not limited to academics. Build rooms around the way students actually
+          live.
+        </p>
+        <div class="cards-grid bento-grid-standard">
+          <article class="glass-card compact-bento-card bento-7 reveal reveal-stagger"><h3><span class="card-icon">&#9678;</span><span class="card-title-text">Study groups</span><span class="card-expand-indicator" aria-hidden="true">&#8594;</span></h3><p>Daily prep circles with focused schedules.</p><p class="card-deep-detail">Run repeat sessions, topic checkpoints, and shared revision goals that keep everyone accountable.</p></article>
+          <article class="glass-card compact-bento-card bento-5 reveal reveal-stagger"><h3><span class="card-icon">&#9638;</span><span class="card-title-text">Gaming squads</span><span class="card-expand-indicator" aria-hidden="true">&#8594;</span></h3><p>Rank pushes, scrims, and fun lobby nights.</p><p class="card-deep-detail">Create role-based squads and recurring match windows without noisy group chat clutter.</p></article>
+          <article class="glass-card compact-bento-card bento-5 reveal reveal-stagger"><h3><span class="card-icon">&#9703;</span><span class="card-title-text">Project teams</span><span class="card-expand-indicator" aria-hidden="true">&#8594;</span></h3><p>Assignments, hackathons, and build sprints.</p><p class="card-deep-detail">Find teammates by skill stack and availability to move faster from idea to submission.</p></article>
+          <article class="glass-card compact-bento-card bento-7 reveal reveal-stagger"><h3><span class="card-icon">&#9643;</span><span class="card-title-text">Placement prep</span><span class="card-expand-indicator" aria-hidden="true">&#8594;</span></h3><p>Aptitude, coding rounds, and mock interviews.</p><p class="card-deep-detail">Join focused prep pods for DSA, aptitude, and interview practice with peers at your pace.</p></article>
+          <article class="glass-card compact-bento-card bento-12 reveal reveal-stagger"><h3><span class="card-icon">&#9671;</span><span class="card-title-text">Campus communities</span><span class="card-expand-indicator" aria-hidden="true">&#8594;</span></h3><p>Cultural clubs, sports circles, startup pods, and extra-curricular communities in one place.</p><p class="card-deep-detail">Consolidate interest groups into clean, discoverable rooms that make campus participation effortless.</p></article>
+        </div>
+      </section>
+
+      <section id="events" class="section-container">
+        <p class="section-label reveal">Events</p>
+        <h2 class="gradient-text reveal">Know what's happening in your college and your city.</h2>
+        <p class="section-subtitle reveal">
+          Discover college fests, club events, workshops, hackathons, sports events, competitions,
+          and city-level student activities in one place.
+        </p>
+        <div class="cards-grid bento-grid-standard">
+          <article class="glass-card compact-bento-card bento-7 reveal reveal-stagger"><h3><span class="card-icon">&#9678;</span><span class="card-title-text">College fests</span><span class="card-expand-indicator" aria-hidden="true">&#8594;</span></h3><p>Discover flagship campus events and priority signups.</p><p class="card-deep-detail">Track registration deadlines, team requirements, and host updates before slots fill up.</p></article>
+          <article class="glass-card compact-bento-card bento-5 reveal reveal-stagger"><h3><span class="card-icon">&#9702;</span><span class="card-title-text">Workshops</span><span class="card-expand-indicator" aria-hidden="true">&#8594;</span></h3><p>Track hands-on sessions and expert talks.</p><p class="card-deep-detail">Filter workshops by skill level and domain so your time goes to events that improve outcomes.</p></article>
+          <article class="glass-card compact-bento-card bento-5 reveal reveal-stagger"><h3><span class="card-icon">&#9638;</span><span class="card-title-text">Hackathons</span><span class="card-expand-indicator" aria-hidden="true">&#8594;</span></h3><p>Form teams early and build fast before deadlines.</p><p class="card-deep-detail">Match by role, availability, and stack preference to avoid last-minute team chaos.</p></article>
+          <article class="glass-card compact-bento-card bento-7 reveal reveal-stagger"><h3><span class="card-icon">&#9703;</span><span class="card-title-text">City meetups</span><span class="card-expand-indicator" aria-hidden="true">&#8594;</span></h3><p>Explore student-friendly events around your campus city.</p><p class="card-deep-detail">Stay synced on nearby meetups, clubs, and competitions without fragmented social feeds.</p></article>
+          <article class="glass-card compact-bento-card bento-12 reveal reveal-stagger"><h3><span class="card-icon">&#9643;</span><span class="card-title-text">Event intelligence</span><span class="card-expand-indicator" aria-hidden="true">&#8594;</span></h3><p>One clean view for what is happening today, this week, and near you.</p><p class="card-deep-detail">Get rolling summaries, reminder nudges, and trend signals so you never miss high-value opportunities.</p></article>
+        </div>
+      </section>
+
+      <section id="stories" class="section-container">
+        <p class="section-label reveal">Stories</p>
+        <h2 class="gradient-text reveal">Share your campus moments.</h2>
+        <p class="section-subtitle reveal">
+          Post stories, see what your college is doing, react to friends, and stay updated with
+          campus life without random public noise.
+        </p>
+        <div class="stories-row reveal" aria-label="Story previews" role="list">
+          <div class="story-item seen" role="listitem">
+            <div class="story-avatar-ring">
+              <img class="story-avatar-img" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=160&q=80" alt="Riya Singh story update" loading="lazy" />
+            </div>
+            <small>24h</small>
+          </div>
+          <div class="story-item unseen" role="listitem">
+            <div class="story-avatar-ring">
+              <img class="story-avatar-img" src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=160&q=80" alt="Pranav Mehta story update" loading="lazy" />
+            </div>
+            <small>12h</small>
+          </div>
+          <div class="story-item unseen" role="listitem">
+            <div class="story-avatar-ring">
+              <img class="story-avatar-img" src="https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?auto=format&fit=crop&w=160&q=80" alt="Aditi Kapoor story update" loading="lazy" />
+            </div>
+            <small>8h</small>
+          </div>
+          <div class="story-item seen" role="listitem">
+            <div class="story-avatar-ring">
+              <img class="story-avatar-img" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=160&q=80" alt="Nikhil Tandon story update" loading="lazy" />
+            </div>
+            <small>24h</small>
+          </div>
+          <div class="story-item unseen" role="listitem">
+            <div class="story-avatar-ring">
+              <img class="story-avatar-img" src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&w=160&q=80" alt="Diya Verma story update" loading="lazy" />
+            </div>
+            <small>3h</small>
+          </div>
+          <div class="story-item seen" role="listitem">
+            <div class="story-avatar-ring">
+              <img class="story-avatar-img" src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=160&q=80" alt="Mihir Joshi story update" loading="lazy" />
+            </div>
+            <small>20h</small>
+          </div>
+        </div>
+        <div class="grid-3 cards-grid bento-grid">
+          <article class="glass-card bento-wide reveal reveal-stagger"><h3>Campus stories</h3><p>See real updates from your own college life.</p></article>
+          <article class="glass-card reveal reveal-stagger"><h3>Event moments</h3><p>Catch highlights from workshops, fests, and clubs.</p></article>
+          <article class="glass-card reveal reveal-stagger"><h3>Club updates</h3><p>Follow announcements that matter to your interests.</p></article>
+          <article class="glass-card reveal reveal-stagger"><h3>Study streaks</h3><p>Share consistency and stay motivated with friends.</p></article>
+          <article class="glass-card bento-wide reveal reveal-stagger"><h3>Friend reactions</h3><p>Quick replies and reactions that feel personal.</p></article>
+          <article class="glass-card reveal reveal-stagger"><h3>24-hour updates</h3><p>Fresh campus context without permanent noise.</p></article>
+        </div>
+      </section>
+
+      <section id="intercollege" class="section-container">
+        <p class="section-label reveal">Inter-college</p>
+        <h2 class="gradient-text reveal">Make friends beyond your campus.</h2>
+        <p class="section-subtitle reveal">
+          sparq helps verified students connect across colleges for projects, games, events,
+          hackathons, communities, and real friendships.
+        </p>
+        <div class="cards-grid bento-grid-standard">
+          <article class="glass-card compact-bento-card bento-7 reveal reveal-stagger"><h3><span class="card-icon">&#9678;</span><span class="card-title-text">Inter-college friends</span><span class="card-expand-indicator" aria-hidden="true">&#8594;</span></h3><p>Meet students from target campuses on shared interests.</p><p class="card-deep-detail">Build trusted friendships beyond your college without opening your profile to random public noise.</p></article>
+          <article class="glass-card compact-bento-card bento-5 reveal reveal-stagger"><h3><span class="card-icon">&#9702;</span><span class="card-title-text">Hackathon teams</span><span class="card-expand-indicator" aria-hidden="true">&#8594;</span></h3><p>Build squads across colleges before event deadlines.</p><p class="card-deep-detail">Source developers, designers, and presenters quickly from verified student pools.</p></article>
+          <article class="glass-card compact-bento-card bento-5 reveal reveal-stagger"><h3><span class="card-icon">&#9638;</span><span class="card-title-text">Gaming groups</span><span class="card-expand-indicator" aria-hidden="true">&#8594;</span></h3><p>Queue up with cross-campus teammates for sessions.</p><p class="card-deep-detail">Coordinate game nights and ranked sessions with reliable teams across nearby campuses.</p></article>
+          <article class="glass-card compact-bento-card bento-7 reveal reveal-stagger"><h3><span class="card-icon">&#9703;</span><span class="card-title-text">Project partners</span><span class="card-expand-indicator" aria-hidden="true">&#8594;</span></h3><p>Find collaborators for technical and creative builds.</p><p class="card-deep-detail">Match by skills, timeline, and outcomes to move from concept to execution with less friction.</p></article>
+          <article class="glass-card compact-bento-card bento-12 reveal reveal-stagger"><h3><span class="card-icon">&#9643;</span><span class="card-title-text">Cross-campus communities</span><span class="card-expand-indicator" aria-hidden="true">&#8594;</span></h3><p>Join focused circles that scale beyond one campus.</p><p class="card-deep-detail">Participate in high-signal communities for placements, projects, events, and shared growth.</p></article>
+        </div>
+        <article class="network-card glass-card tn-upgrade reveal" aria-label="Campus expansion roadmap">
+          <p class="tn-label">TARGET CAMPUSES &#183; STUDENT NETWORK &#183; EXPANSION ROADMAP</p>
+          <h3 class="tn-headline">sparq is starting with real campuses.</h3>
+          <p class="tn-subtext">
+            A trusted student network begins inside colleges, then expands across campuses for study,
+            events, projects, games, and friendships.
+          </p>
+          <div class="tn-top-meta" aria-label="Expansion focus indicators">
+            <span class="tn-meta-chip">Primary markets first</span>
+            <span class="tn-meta-chip">Verified student cohorts</span>
+            <span class="tn-meta-chip">Phased rollout model</span>
+          </div>
+
+          <div class="tn-layout">
+            <div class="tn-hub-wrap reveal">
+              <button class="tn-center" aria-label="sparq student network center">
+                <span class="tn-center-ring"></span>
+                <span class="tn-center-title">sparq</span>
+                <span class="tn-center-sub">student network</span>
+              </button>
+            </div>
+
+            <div class="tn-regions-wrap">
+              <div class="tn-connectors" aria-hidden="true">
+                <span class="tn-connector tn-connector-left"></span>
+                <span class="tn-connector tn-connector-mid"></span>
+                <span class="tn-connector tn-connector-right"></span>
+              </div>
+
+              <div class="tn-region-grid">
+                <article class="tn-region-card tn-region-primary glass-card reveal reveal-stagger">
+                  <div class="tn-region-head">
+                    <h4>Tamil Nadu</h4>
+                    <span class="tn-region-count">4 campuses</span>
+                  </div>
+                  <div class="tn-chip-list">
+                    <article class="tn-campus-chip reveal reveal-stagger">
+                      <span class="tn-campus-name">SRM KTR</span>
+                      <span class="tn-campus-status target">target</span>
+                    </article>
+                    <article class="tn-campus-chip reveal reveal-stagger">
+                      <span class="tn-campus-name">SRM Ramapuram</span>
+                      <span class="tn-campus-status target">target</span>
+                    </article>
+                    <article class="tn-campus-chip reveal reveal-stagger">
+                      <span class="tn-campus-name">VIT Vellore</span>
+                      <span class="tn-campus-status target">target</span>
+                    </article>
+                    <article class="tn-campus-chip reveal reveal-stagger">
+                      <span class="tn-campus-name">VIT Chennai</span>
+                      <span class="tn-campus-status target">target</span>
+                    </article>
+                  </div>
+                </article>
+
+                <article class="tn-region-card tn-region-secondary glass-card reveal reveal-stagger">
+                  <div class="tn-region-head">
+                    <h4>North / Delhi NCR / Punjab</h4>
+                    <span class="tn-region-count">5 campuses</span>
+                  </div>
+                  <div class="tn-chip-list">
+                    <article class="tn-campus-chip reveal reveal-stagger">
+                      <span class="tn-campus-name">LPU Punjab</span>
+                      <span class="tn-campus-status target">target</span>
+                    </article>
+                    <article class="tn-campus-chip reveal reveal-stagger">
+                      <span class="tn-campus-name">CU Punjab</span>
+                      <span class="tn-campus-status roadmap">roadmap</span>
+                    </article>
+                    <article class="tn-campus-chip reveal reveal-stagger">
+                      <span class="tn-campus-name">SRM Sonepat</span>
+                      <span class="tn-campus-status roadmap">roadmap</span>
+                    </article>
+                    <article class="tn-campus-chip reveal reveal-stagger">
+                      <span class="tn-campus-name">DU</span>
+                      <span class="tn-campus-status target">target</span>
+                    </article>
+                    <article class="tn-campus-chip reveal reveal-stagger">
+                      <span class="tn-campus-name">GD Goenka Gurugram</span>
+                      <span class="tn-campus-status roadmap">roadmap</span>
+                    </article>
+                  </div>
+                </article>
+
+                <article class="tn-region-card tn-region-compact glass-card reveal reveal-stagger">
+                  <div class="tn-region-head">
+                    <h4>Rajasthan / UP</h4>
+                    <span class="tn-region-count">3 campuses</span>
+                  </div>
+                  <div class="tn-chip-list">
+                    <article class="tn-campus-chip reveal reveal-stagger">
+                      <span class="tn-campus-name">Poornima Jaipur</span>
+                      <span class="tn-campus-status roadmap">roadmap</span>
+                    </article>
+                    <article class="tn-campus-chip reveal reveal-stagger">
+                      <span class="tn-campus-name">JECRC Jaipur</span>
+                      <span class="tn-campus-status roadmap">roadmap</span>
+                    </article>
+                    <article class="tn-campus-chip reveal reveal-stagger">
+                      <span class="tn-campus-name">GLA Mathura</span>
+                      <span class="tn-campus-status expansion">expansion</span>
+                    </article>
+                  </div>
+                  <div class="tn-compact-panel">
+                    <p class="tn-compact-title">Expansion sequencing</p>
+                    <p class="tn-compact-line"><span>Q3 2026</span> Rajasthan priority onboarding</p>
+                    <p class="tn-compact-line"><span>Q4 2026</span> UP community expansion pods</p>
+                  </div>
+                </article>
+              </div>
+            </div>
+          </div>
+
+          <div class="tn-stats" aria-label="Roadmap stats">
+            <span class="tn-stat-pill"><span class="num">12</span> target campuses</span>
+            <span class="tn-stat-pill"><span class="num">10,000+</span> student reach</span>
+            <span class="tn-stat-pill"><span class="num">Mid-Aug</span> launch window</span>
+          </div>
+        </article>
+
+        <div class="tn-benefits">
+          <h3 class="gradient-text reveal">What inter-college means for students</h3>
+          <div class="grid-3 cards-grid bento-grid">
+            <article class="glass-card bento-wide reveal reveal-stagger">
+              <h3>Make friends across colleges</h3>
+              <p>Connect with verified students beyond your own campus.</p>
+            </article>
+            <article class="glass-card reveal reveal-stagger">
+              <h3>Inter-college study rooms</h3>
+              <p>Join rooms for exams, coding, placements, and subjects with students from other campuses.</p>
+            </article>
+            <article class="glass-card reveal reveal-stagger">
+              <h3>Hackathon teams</h3>
+              <p>Find developers, designers, presenters, and idea builders across colleges.</p>
+            </article>
+            <article class="glass-card reveal reveal-stagger">
+              <h3>Gaming squads</h3>
+              <p>Create gaming groups for BGMI, Valorant, FIFA, chess, and casual sessions.</p>
+            </article>
+            <article class="glass-card bento-wide reveal reveal-stagger">
+              <h3>City-level events</h3>
+              <p>Discover events happening in your college and around your city.</p>
+            </article>
+            <article class="glass-card reveal reveal-stagger">
+              <h3>Project collaboration</h3>
+              <p>Build teams for assignments, startups, open-source, and technical projects.</p>
+            </article>
+          </div>
+          <p class="tn-benefits-note reveal">
+            Inter-college discovery stays interest-based and verified &#8212; not random open browsing.
+          </p>
+        </div>
+      </section>
+
+      <section id="why-students" class="section-container">
+        <p class="section-label reveal">Why Students</p>
+        <h2 class="gradient-text reveal">Why students will actually use sparq</h2>
+        <div class="grid-3 cards-grid bento-grid">
+          <article class="glass-card bento-wide reveal reveal-stagger"><h3>No awkward searching</h3><p>Find people through interests, timing, branch, year, and goals.</p></article>
+          <article class="glass-card reveal reveal-stagger"><h3>Less fake profiles</h3><p>College-email verification keeps the network more trusted.</p></article>
+          <article class="glass-card reveal reveal-stagger"><h3>More than study</h3><p>Groups, games, stories, events, clubs, and friendships live together.</p></article>
+          <article class="glass-card reveal reveal-stagger"><h3>Better college life</h3><p>Find your circle faster, especially if you are new or introverted.</p></article>
+          <article class="glass-card bento-wide reveal reveal-stagger"><h3>Inter-college reach</h3><p>Make friends and teams beyond your campus without random open browsing.</p></article>
+          <article class="glass-card reveal reveal-stagger"><h3>Real utility</h3><p>Use sparq for study, fun, events, projects, and communities.</p></article>
+        </div>
+      </section>
+
+      <section id="features" class="section-container">
+        <p class="section-label reveal">Features</p>
+        <h2 class="gradient-text reveal">What students can do on sparq</h2>
+        <div class="grid-3 cards-grid features-grid bento-grid feature-disclosure-grid">
+          <article class="glass-card feature-card feature-disclosure bento-wide reveal reveal-stagger">
+            <div class="feature-card-head">
+              <h3><span class="feature-icon">&#9638;</span>Verified profiles</h3>
+              <button type="button" class="detail-chevron" aria-label="Toggle details for verified profiles" aria-expanded="false" aria-controls="feature-detail-verified">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <polyline points="6 9 12 15 18 9"></polyline>
+                </svg>
+              </button>
+            </div>
+            <p>Trust-first identity inside your campus network.</p>
+            <div class="card-extra-info" id="feature-detail-verified">
+              College email verification, scoped communities, and reporting workflows keep discovery safer and lower fake-profile noise.
+            </div>
+          </article>
+
+          <article class="glass-card feature-card feature-disclosure reveal reveal-stagger">
+            <div class="feature-card-head">
+              <h3><span class="feature-icon">&#9643;</span>Study matching</h3>
+              <button type="button" class="detail-chevron" aria-label="Toggle details for study matching" aria-expanded="false" aria-controls="feature-detail-study">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <polyline points="6 9 12 15 18 9"></polyline>
+                </svg>
+              </button>
+            </div>
+            <p>Match by branch, goals, schedule, and learning intensity.</p>
+            <div class="card-extra-info" id="feature-detail-study">
+              Use branch/year filters, exam timeline alignment, and focused 1:1 chat starts to find serious prep partners faster.
+            </div>
+          </article>
+
+          <article class="glass-card feature-card feature-disclosure reveal reveal-stagger">
+            <div class="feature-card-head">
+              <h3><span class="feature-icon">&#9702;</span>Groups and rooms</h3>
+              <button type="button" class="detail-chevron" aria-label="Toggle details for groups and rooms" aria-expanded="false" aria-controls="feature-detail-groups">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <polyline points="6 9 12 15 18 9"></polyline>
+                </svg>
+              </button>
+            </div>
+            <p>Build focused spaces for academics, projects, and campus interests.</p>
+            <div class="card-extra-info" id="feature-detail-groups">
+              Run study circles, gaming squads, project pods, and campus communities with clean room threads and role-based ownership.
+            </div>
+          </article>
+
+          <article class="glass-card feature-card feature-disclosure reveal reveal-stagger">
+            <div class="feature-card-head">
+              <h3><span class="feature-icon">&#9634;</span>Events discovery</h3>
+              <button type="button" class="detail-chevron" aria-label="Toggle details for events discovery" aria-expanded="false" aria-controls="feature-detail-events">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <polyline points="6 9 12 15 18 9"></polyline>
+                </svg>
+              </button>
+            </div>
+            <p>Track high-signal campus and city student events in one feed.</p>
+            <div class="card-extra-info" id="feature-detail-events">
+              Stay updated on fests, workshops, hackathons, and meetups with weekly rollups and location-aware reminders.
+            </div>
+          </article>
+
+          <article class="glass-card feature-card feature-disclosure bento-wide reveal reveal-stagger">
+            <div class="feature-card-head">
+              <h3><span class="feature-icon">&#9670;</span>Inter-college collaboration</h3>
+              <button type="button" class="detail-chevron" aria-label="Toggle details for inter-college collaboration" aria-expanded="false" aria-controls="feature-detail-intercollege">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <polyline points="6 9 12 15 18 9"></polyline>
+                </svg>
+              </button>
+            </div>
+            <p>Build friendships, teams, and projects beyond your own campus.</p>
+            <div class="card-extra-info" id="feature-detail-intercollege">
+              Form hackathon teams, find project partners, join city-level rooms, and collaborate with verified students across campuses.
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section id="stats" class="section-container">
+        <p class="section-label reveal">Vision Metrics</p>
+        <h2 class="gradient-text reveal">Early network momentum for launch.</h2>
+        <p class="section-subtitle reveal">
+          Display metrics for launch planning and product direction, not live backend counters.
+        </p>
+        <div class="stats-grid">
+          <article class="glass-card stat-ring-card reveal reveal-stagger">
+            <div class="ring-shell">
+              <svg class="ring-svg" viewBox="0 0 80 80" aria-hidden="true">
+                <circle class="ring-bg" cx="40" cy="40" r="34"></circle>
+                <circle class="ring-fill" cx="40" cy="40" r="34" data-fill="0.9"></circle>
+              </svg>
+              <p class="ring-num" data-target="50" data-suffix="+">50+</p>
+            </div>
+            <p class="ring-label">Target colleges</p>
+          </article>
+          <article class="glass-card stat-ring-card reveal reveal-stagger">
+            <div class="ring-shell">
+              <svg class="ring-svg" viewBox="0 0 80 80" aria-hidden="true">
+                <circle class="ring-bg" cx="40" cy="40" r="34"></circle>
+                <circle class="ring-fill" cx="40" cy="40" r="34" data-fill="0.97"></circle>
+              </svg>
+              <p class="ring-num" data-target="10000" data-suffix="+">10,000+</p>
+            </div>
+            <p class="ring-label">Student reach</p>
+          </article>
+          <article class="glass-card stat-ring-card reveal reveal-stagger">
+            <div class="ring-shell">
+              <svg class="ring-svg" viewBox="0 0 80 80" aria-hidden="true">
+                <circle class="ring-bg" cx="40" cy="40" r="34"></circle>
+                <circle class="ring-fill" cx="40" cy="40" r="34" data-fill="0.95"></circle>
+              </svg>
+              <p class="ring-num" data-target="95" data-suffix="%">95%</p>
+            </div>
+            <p class="ring-label">Trust-first matching goal</p>
+          </article>
+          <article class="glass-card stat-ring-card reveal reveal-stagger">
+            <div class="ring-shell">
+              <svg class="ring-svg" viewBox="0 0 80 80" aria-hidden="true">
+                <circle class="ring-bg" cx="40" cy="40" r="34"></circle>
+                <circle class="ring-fill" cx="40" cy="40" r="34" data-fill="0.88"></circle>
+              </svg>
+              <p class="ring-num" data-target="4.8" data-suffix="&#9733;">4.8&#9733;</p>
+            </div>
+            <p class="ring-label">Product experience target</p>
+          </article>
+        </div>
+      </section>
+
+      <section id="vision" class="section-container">
+        <p class="section-label reveal">Vision</p>
+        <h2 class="gradient-text reveal">Our roadmap for the student network.</h2>
+        <p class="section-subtitle reveal">
+          sparq starts college-first and expands into a trusted network where study, communities,
+          projects, and events stay useful and contextual.
+        </p>
+        <div class="vision-timeline reveal" aria-label="Vision phases">
+          <div class="timeline-track" aria-hidden="true">
+            <div class="timeline-fill"></div>
+          </div>
+          <article class="phase-card reveal reveal-stagger is-active" data-phase="1" tabindex="0">
+            <div class="phase-dot is-active" aria-hidden="true"></div>
+            <div class="phase-body">
+              <h3>Phase 1</h3>
+              <p class="phase-desc">Launch selected colleges</p>
+            </div>
+          </article>
+          <article class="phase-card reveal reveal-stagger" data-phase="2" tabindex="0">
+            <div class="phase-dot" aria-hidden="true"></div>
+            <div class="phase-body">
+              <h3>Phase 2</h3>
+              <p class="phase-desc">Build strong college communities</p>
+            </div>
+          </article>
+          <article class="phase-card reveal reveal-stagger" data-phase="3" tabindex="0">
+            <div class="phase-dot" aria-hidden="true"></div>
+            <div class="phase-body">
+              <h3>Phase 3</h3>
+              <p class="phase-desc">Expand across campuses</p>
+            </div>
+          </article>
+          <article class="phase-card reveal reveal-stagger" data-phase="4" tabindex="0">
+            <div class="phase-dot" aria-hidden="true"></div>
+            <div class="phase-body">
+              <h3>Phase 4</h3>
+              <p class="phase-desc">Grow the student network across India</p>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section id="trust" class="section-container">
+        <p class="section-label reveal">Trust and Safety</p>
+        <h2 class="gradient-text reveal">Designed with trust from day one.</h2>
+        <div class="grid-3 cards-grid bento-grid">
+          <article class="glass-card bento-wide reveal reveal-stagger"><h3><span class="icon-glyph">&#9638;</span>College email verification</h3><p>Only verified students can join. No random signups.</p></article>
+          <article class="glass-card reveal reveal-stagger"><h3><span class="icon-glyph">&#9670;</span>Report and moderation</h3><p>Clear reporting flow with real action.</p></article>
+          <article class="glass-card reveal reveal-stagger"><h3><span class="icon-glyph">&#9643;</span>College-scoped communities</h3><p>Default spaces stay contextual to your campus.</p></article>
+          <article class="glass-card reveal reveal-stagger"><h3><span class="icon-glyph">&#9702;</span>Safer discovery</h3><p>Find students through filters, not random feeds.</p></article>
+          <article class="glass-card bento-wide reveal reveal-stagger"><h3><span class="icon-glyph">&#9634;</span>Fewer fake identities</h3><p>Verification reduces fake profile noise by design.</p></article>
+        </div>
+      </section>
+
+      <section id="faq" class="section-container">
+        <p class="section-label reveal">&#10022; Questions</p>
+        <h2 class="gradient-text reveal">Things students ask</h2>
+        <div class="faq-list">
+          <div class="faq-item reveal">
+            <button class="faq-q" aria-expanded="false">
+              Is sparq free to use?
+              <span class="faq-icon">+</span>
+            </button>
+            <div class="faq-a">
+              Yes. sparq is free for students. We are launching with full access for early users on
+              all partner campuses.
+            </div>
+          </div>
+
+          <div class="faq-item reveal">
+            <button class="faq-q" aria-expanded="false">
+              How does sparq verify that I am a real student?
+              <span class="faq-icon">+</span>
+            </button>
+            <div class="faq-a">
+              You sign up with your college email. That email is used to verify you belong to a real
+              institution. No ID uploads, no manual review, just your college email.
+            </div>
+          </div>
+
+          <div class="faq-item reveal">
+            <button class="faq-q" aria-expanded="false">
+              When exactly does sparq launch?
+              <span class="faq-icon">+</span>
+            </button>
+            <div class="faq-a">
+              We are targeting mid-August 2026 for our first campus launch. Students on the waitlist
+              get access before anyone else.
+            </div>
+          </div>
+
+          <div class="faq-item reveal">
+            <button class="faq-q" aria-expanded="false">
+              Is this only for engineering students?
+              <span class="faq-icon">+</span>
+            </button>
+            <div class="faq-a">
+              No. sparq is for any college student, any branch, any stream, any goal. The filters
+              help you find people relevant to you.
+            </div>
+          </div>
+
+          <div class="faq-item reveal">
+            <button class="faq-q" aria-expanded="false">
+              How is this different from WhatsApp groups or LinkedIn?
+              <span class="faq-icon">+</span>
+            </button>
+            <div class="faq-a">
+              WhatsApp groups get noisy and have no discovery. LinkedIn is career-focused and formal.
+              sparq is built specifically for college students: verified, interest-matched, and scoped
+              to your campus.
+            </div>
+          </div>
+
+          <div class="faq-item reveal">
+            <button class="faq-q" aria-expanded="false">
+              What does a campus representative actually do?
+              <span class="faq-icon">+</span>
+            </button>
+            <div class="faq-a">
+              You are the first person who brings sparq to your college. You help us understand your
+              campus, spread the word, and become the founding voice of sparq at your institution.
+              You get early access and a direct line to our team.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="campus" class="section-container campus-section">
+        <article class="glass-card campus-feature reveal">
+          <div class="campus-feature-layout">
+            <div class="campus-feature-main">
+              <div class="campus-badge">&#10022; campus representative program</div>
+              <h2 class="gradient-text">Bring sparq to your college.</h2>
+              <p class="campus-sub">
+                We are launching campus-by-campus. Lead the first chapter in your institution and
+                help shape a trusted student network from day one.
+              </p>
+              <div class="campus-kpi-row">
+                <span class="campus-kpi"><strong id="spotsLeft">47</strong> early-access seats in your region</span>
+                <span class="campus-kpi"><strong class="wlCountMirror">2,847</strong> students already waiting</span>
+              </div>
+              <div class="campus-actions">
+                <a
+                  href="https://docs.google.com/forms/d/e/1FAIpQLSfEAuiqE5K5r82RyXux6ZOF4Bv3Ge0uu4KMNTuZxD_LHVMYlg/viewform?usp=header"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="btn-campus"
+                  aria-label="Apply to bring sparq to your campus"
+                  >Bring sparq to my campus &#10022;</a
+                >
+                <p class="campus-note">Takes 2 minutes. No prior experience needed.</p>
+              </div>
+            </div>
+
+            <aside class="campus-feature-side reveal reveal-stagger" aria-label="Campus representative benefits">
+              <h3>What you unlock</h3>
+              <div class="campus-perks-list">
+                <div class="campus-perk-row">
+                  <span class="icon-glyph campus-perk-icon" aria-hidden="true">&#9638;</span>
+                  <p class="campus-perk-text">Priority product support and faster community activation for your campus.</p>
+                </div>
+                <div class="campus-perk-row">
+                  <span class="icon-glyph campus-perk-icon" aria-hidden="true">&#9670;</span>
+                  <p class="campus-perk-text">Official campus representative role with direct onboarding coordination.</p>
+                </div>
+                <div class="campus-perk-row">
+                  <span class="icon-glyph campus-perk-icon" aria-hidden="true">&#9643;</span>
+                  <p class="campus-perk-text">Early launch access before wider public rollout in your city.</p>
+                </div>
+                <div class="campus-perk-row">
+                  <span class="icon-glyph campus-perk-icon" aria-hidden="true">&#9702;</span>
+                  <p class="campus-perk-text">A direct feedback line to shape sparq around your student needs.</p>
+                </div>
+              </div>
+            </aside>
+          </div>
+        </article>
+      </section>
+
+      <div class="marquee-wrap reveal" aria-label="Target colleges">
+        <div class="marquee-track">
+          <span>IIT Madras</span><span>VIT Vellore</span><span>SRM Chennai</span>
+          <span>BITS Pilani</span><span>Anna University</span><span>NIT Trichy</span>
+          <span>Amrita</span><span>Saveetha</span><span>PSG Tech</span>
+          <span>KCE</span><span>CEG</span><span>SSN College</span>
+          <span>IIT Madras</span><span>VIT Vellore</span><span>SRM Chennai</span>
+          <span>BITS Pilani</span><span>Anna University</span><span>NIT Trichy</span>
+          <span>Amrita</span><span>Saveetha</span><span>PSG Tech</span>
+          <span>KCE</span><span>CEG</span><span>SSN College</span>
+        </div>
+      </div>
+
+      <section class="section-container app-coming-wrap">
+        <div class="app-coming-card glass-card reveal">
+          <div class="acc-left">
+            <div class="acc-icon" aria-hidden="true">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="5" y="2" width="14" height="20" rx="3"/>
+                <line x1="9" y1="7" x2="15" y2="7"/>
+                <line x1="9" y1="11" x2="15" y2="11"/>
+                <circle cx="12" cy="17" r="1" fill="currentColor" stroke="none"/>
+              </svg>
+            </div>
+            <div>
+              <h3 class="acc-title">sparq app</h3>
+              <p class="acc-sub">iOS &amp; Android &#8212; coming August 2026</p>
+            </div>
+          </div>
+          <div class="acc-right">
+            <div class="acc-platform">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
+              </svg>
+              iOS
+            </div>
+            <div class="acc-platform">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M17.523 15.341 5.386 21.8A1.036 1.036 0 0 1 4 20.82V3.18a1.036 1.036 0 0 1 1.386-.98l12.137 6.459-5.088 3.241 5.088 3.441zM18.617 8.04l-1.459-.779L12 10.68l5.158 3.279 1.459-.779a1.036 1.036 0 0 0 0-5.14z"/>
+              </svg>
+              Android
+            </div>
+            <span class="acc-tag">Notify me</span>
+          </div>
+        </div>
+      </section>
+
+      <section id="join" class="section-container final-cta">
+        <p class="section-label reveal">Join</p>
+        <h2 class="gradient-text reveal">Find your people. Build your circle. Start with sparq.</h2>
+        <p class="section-subtitle reveal">
+          Whether you want a study partner, a gaming squad, a project team, a college event, or
+          friends from another campus, sparq helps students connect with the right people at the
+          right time.
+        </p>
+        <p class="waitlist-count reveal">
+          <span id="wl-count">2,847</span> students already on the waitlist
+        </p>
+        <div class="avatar-proof reveal">
+          <div class="avatar-stack" aria-hidden="true">
+            <div class="av has-photo"><img class="av-img" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=120&q=80" alt="" loading="lazy" /></div>
+            <div class="av has-photo"><img class="av-img" src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=120&q=80" alt="" loading="lazy" /></div>
+            <div class="av has-photo"><img class="av-img" src="https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?auto=format&fit=crop&w=120&q=80" alt="" loading="lazy" /></div>
+            <div class="av has-photo"><img class="av-img" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=120&q=80" alt="" loading="lazy" /></div>
+            <div class="av has-photo"><img class="av-img" src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&w=120&q=80" alt="" loading="lazy" /></div>
+          </div>
+          <span class="proof-text">
+            <span class="wlCountMirror">2,847</span> students already waiting
+          </span>
+        </div>
+        <div class="final-cta-buttons reveal">
+          <a
+            href="https://docs.google.com/forms/d/e/1FAIpQLSfEAuiqE5K5r82RyXux6ZOF4Bv3Ge0uu4KMNTuZxD_LHVMYlg/viewform?usp=header"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="btn-primary"
+            aria-label="Join early access on sparq"
+            >Join early access</a
+          >
+          <a
+            href="https://docs.google.com/forms/d/e/1FAIpQLSfEAuiqE5K5r82RyXux6ZOF4Bv3Ge0uu4KMNTuZxD_LHVMYlg/viewform?usp=header"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="btn-secondary"
+            aria-label="Bring sparq to my campus"
+            >Bring sparq to my campus</a
+          >
+          <a
+            href="https://docs.google.com/forms/d/e/1FAIpQLSfEAuiqE5K5r82RyXux6ZOF4Bv3Ge0uu4KMNTuZxD_LHVMYlg/viewform?usp=header"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="btn-secondary"
+            aria-label="Become a campus rep for sparq"
+            >Become a campus rep</a
+          >
+        </div>
+        <div class="share-row reveal">
+          <span class="share-label">share with your college friends</span>
+          <div class="share-btns">
+            <a
+              href="https://wa.me/"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="share-btn share-wa"
+              id="waShareBtn"
+              aria-label="Share on WhatsApp"
+              >WhatsApp</a
+            >
+            <button class="share-btn share-copy" id="copyBtn" aria-label="Copy page link">
+              Copy link
+            </button>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <div class="footer-logo">sparq</div>
+          <p class="footer-tagline">built for students. built inside colleges. built as sparq.</p>
+          <div class="footer-social">
+            <a
+              href="https://www.instagram.com/sparq_in?igsh=MXFnMWE5eHBsMnIwdw=="
+              target="_blank"
+              rel="noopener noreferrer"
+              class="social-link"
+              aria-label="sparq on Instagram"
+            >
+              <svg class="social-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+                <circle cx="12" cy="12" r="4"/>
+                <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/>
+              </svg>
+              <span>Instagram</span>
+            </a>
+            <a
+              href="https://www.linkedin.com/in/dipanshu-poonia-2226b5326/"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="social-link"
+              aria-label="sparq on LinkedIn"
+            >
+              <svg class="social-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="2" width="20" height="20" rx="4"/>
+                <line x1="8" y1="11" x2="8" y2="16"/>
+                <line x1="8" y1="8" x2="8" y2="8.5"/>
+                <path d="M12 16v-5M12 11c0-1.5 1-2 2-2s2 .5 2 2v5"/>
+              </svg>
+              <span>LinkedIn</span>
+            </a>
+            <a
+              href="https://x.com/Dipanshu95211"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="social-link"
+              aria-label="sparq on X (Twitter)"
+            >
+              <svg class="social-icon" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.737-8.835L2.25 2.25h6.988l4.26 5.632 4.746-5.632Zm-1.161 17.52h1.833L7.084 4.126H5.117Z"/>
+              </svg>
+              <span>X (Twitter)</span>
+            </a>
+          </div>
+          <p class="footer-launch">launching mid-august 2026</p>
+        </div>
+
+        <div class="footer-links">
+          <div class="footer-col">
+            <div class="footer-col-title">platform</div>
+            <a href="#meet-people">Meet People</a>
+            <a href="#groups">Groups</a>
+            <a href="#features">Features</a>
+            <a href="#events">Events</a>
+          </div>
+          <div class="footer-col">
+            <div class="footer-col-title">company</div>
+            <a href="#vision">Vision</a>
+            <a href="#trust">Trust &amp; Safety</a>
+            <a href="#faq">FAQ</a>
+            <a href="#campus">Campus Rep</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <span>&#169; 2026 sparq. all rights reserved.</span>
+        <span class="footer-dot">&#183;</span>
+        <span>student-first. always.</span>
+      </div>
+    </footer>
+
+    <div id="exitPopup" class="exit-popup" aria-modal="true" role="dialog" aria-label="Before you go">
+      <button class="exit-close" id="exitClose" aria-label="Close">&#x2715;</button>
+      <div class="exit-badge">&#10022; wait</div>
+      <h3 class="exit-title">Before you leave &#8212;</h3>
+      <p class="exit-sub">
+        sparq launches mid-August. Getting in early means your campus gets set up first.
+      </p>
+      <a
+        href="https://docs.google.com/forms/d/e/1FAIpQLSfEAuiqE5K5r82RyXux6ZOF4Bv3Ge0uu4KMNTuZxD_LHVMYlg/viewform?usp=header"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="exit-btn"
+        aria-label="Secure my spot on sparq"
+      >
+        Secure my spot &#8212; it's free
+      </a>
+      <p class="exit-note">Takes 90 seconds. No spam.</p>
+    </div>
+    <div class="exit-overlay" id="exitOverlay"></div>
+
+    <div class="social-sidebar" aria-label="Social media links">
+      <a
+        href="https://www.instagram.com/sparq_in?igsh=MXFnMWE5eHBsMnIwdw=="
+        target="_blank"
+        rel="noopener noreferrer"
+        class="sidebar-social"
+        aria-label="sparq on Instagram"
+      >
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+          <circle cx="12" cy="12" r="4"/>
+          <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/>
+        </svg>
+        <span class="sidebar-label">Instagram</span>
+      </a>
+
+      <a
+        href="https://www.linkedin.com/in/dipanshu-poonia-2226b5326/"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="sidebar-social"
+        aria-label="sparq on LinkedIn"
+      >
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="2" y="2" width="20" height="20" rx="4"/>
+          <line x1="8" y1="11" x2="8" y2="16"/>
+          <line x1="8" y1="8" x2="8" y2="8.5"/>
+          <path d="M12 16v-5M12 11c0-1.5 1-2 2-2s2 .5 2 2v5"/>
+        </svg>
+        <span class="sidebar-label">LinkedIn</span>
+      </a>
+
+      <a
+        href="https://x.com/Dipanshu95211"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="sidebar-social"
+        aria-label="sparq on X"
+      >
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.737-8.835L2.25 2.25h6.988l4.26 5.632 4.746-5.632Zm-1.161 17.52h1.833L7.084 4.126H5.117Z"/>
+        </svg>
+        <span class="sidebar-label">X</span>
+      </a>
+
+      <div class="sidebar-divider"></div>
+
+      <div class="sidebar-social sidebar-app" aria-label="App coming soon">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="5" y="2" width="14" height="20" rx="3"/>
+          <circle cx="12" cy="17" r="1" fill="currentColor" stroke="none"/>
+        </svg>
+        <span class="sidebar-label">App soon</span>
+      </div>
+    </div>
+
+    <div class="sticky-mob-cta" id="stickyMobCta" aria-hidden="true">
+      <div class="smc-inner">
+        <div>
+          <div class="smc-title">sparq launches August 2026</div>
+          <div class="smc-sub">Secure your spot now</div>
+        </div>
+        <a
+          href="https://docs.google.com/forms/d/e/1FAIpQLSfEAuiqE5K5r82RyXux6ZOF4Bv3Ge0uu4KMNTuZxD_LHVMYlg/viewform?usp=header"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="smc-btn"
+          aria-label="Join the sparq waitlist"
+        >
+          Join now
+        </a>
+      </div>
+    </div>
+
+    <script>
+(() => {
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+
+  function setupHeroSequence() {
+    const sequenced = Array.from(document.querySelectorAll('.hero-seq'));
+    if (!sequenced.length) return;
+
+    if (reduceMotion) {
+      sequenced.forEach((el) => el.classList.add('is-visible'));
+      return;
+    }
+
+    const stepDelay = { 1: 100, 2: 300, 3: 550, 4: 700, 5: 820, 6: 940 };
+    sequenced.forEach((el) => {
+      const step = Number.parseInt(el.getAttribute('data-hero-step') || '1', 10);
+      const delay = Number.isFinite(stepDelay[step]) ? stepDelay[step] : 120;
+      window.setTimeout(() => el.classList.add('is-visible'), delay);
+    });
+  }
+
+  function typeWriter(el, text, speed = 22) {
+    if (!el) return;
+    el.textContent = '';
+    el.style.opacity = '1';
+    let i = 0;
+    const cursor = document.createElement('span');
+    cursor.className = 'type-cursor';
+    cursor.textContent = '|';
+    el.after(cursor);
+
+    const timer = window.setInterval(() => {
+      el.textContent += text.charAt(i);
+      i += 1;
+      if (i >= text.length) {
+        window.clearInterval(timer);
+        window.setTimeout(() => cursor.remove(), 1200);
+      }
+    }, speed);
+  }
+
+  function setupHeroTypewriter() {
+    const subtitle = document.querySelector('.hero-subtitle');
+    if (!subtitle || subtitle.dataset.typed === 'true') return;
+
+    const fullText =
+      'Find serious study partners, build college-level communities, and connect with people who actually match your vibe, goals, and schedule.';
+    subtitle.dataset.typed = 'true';
+
+    if (reduceMotion) {
+      subtitle.textContent = fullText;
+      return;
+    }
+
+    window.setTimeout(() => typeWriter(subtitle, fullText, 22), 900);
+  }
+
+  function setupMobileDrawer() {
+    const hamBtn = document.getElementById('hamBtn');
+    const mobDrawer = document.getElementById('mobDrawer');
+    const mobOverlay = document.getElementById('mobOverlay');
+    const mobClose = document.getElementById('mobClose');
+    const mobLinks = Array.from(document.querySelectorAll('.mob-link, .mob-cta-btn'));
+    if (!hamBtn || !mobDrawer || !mobOverlay) return;
+
+    const openDrawer = () => {
+      mobDrawer.classList.add('open');
+      mobOverlay.classList.add('open');
+      hamBtn.classList.add('open');
+      hamBtn.setAttribute('aria-expanded', 'true');
+      mobDrawer.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+    };
+
+    const closeDrawer = () => {
+      mobDrawer.classList.remove('open');
+      mobOverlay.classList.remove('open');
+      hamBtn.classList.remove('open');
+      hamBtn.setAttribute('aria-expanded', 'false');
+      mobDrawer.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    };
+
+    window.openDr = openDrawer;
+    window.closeDr = closeDrawer;
+
+    hamBtn.addEventListener('click', () => {
+      mobDrawer.classList.contains('open') ? closeDrawer() : openDrawer();
+    });
+    if (mobClose) mobClose.addEventListener('click', closeDrawer);
+    mobOverlay.addEventListener('click', closeDrawer);
+    mobLinks.forEach((link) => link.addEventListener('click', closeDrawer));
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') closeDrawer();
+    });
+    window.addEventListener('resize', () => {
+      if (window.innerWidth > 768) closeDrawer();
+    });
+  }
+
+  function setupRevealObserver() {
+    const revealItems = Array.from(document.querySelectorAll('.reveal'));
+    if (!revealItems.length) return;
+
+    if (!('IntersectionObserver' in window) || reduceMotion) {
+      revealItems.forEach((item) => item.classList.add('visible'));
+      return;
+    }
+
+    const revealObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            revealObserver.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.1, rootMargin: '0px 0px -60px 0px' }
+    );
+    revealItems.forEach((item) => revealObserver.observe(item));
+  }
+
+  function setupScrollProgress() {
+    const bar = document.getElementById('scrollBar');
+    if (!bar) return;
+
+    const update = () => {
+      const doc = document.documentElement;
+      const total = Math.max(1, doc.scrollHeight - window.innerHeight);
+      const ratio = Math.min(Math.max(window.scrollY / total, 0), 1);
+      bar.style.width = `${ratio * 100}%`;
+      document.documentElement.style.setProperty('--scroll-pct', ratio.toFixed(4));
+      const hue = 25 + ratio * 15;
+      document.documentElement.style.setProperty('--ambient-hue', hue.toFixed(2));
+    };
+
+    update();
+    window.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', update);
+  }
+
+  function setupCountdown() {
+    const container = document.getElementById('countdown');
+    const d = document.getElementById('cd-d');
+    const h = document.getElementById('cd-h');
+    const m = document.getElementById('cd-m');
+    const s = document.getElementById('cd-s');
+    if (!container || !d || !h || !m || !s) return;
+
+    const launchTimestamp = new Date('2026-08-15T00:00:00+05:30').getTime();
+    const render = () => {
+      const diff = launchTimestamp - Date.now();
+      if (diff <= 0) {
+        container.innerHTML = '<span class="cd-live">&#10022; sparq is live</span>';
+        return false;
+      }
+      const day = Math.floor(diff / 86400000);
+      const hour = Math.floor((diff % 86400000) / 3600000);
+      const minute = Math.floor((diff % 3600000) / 60000);
+      const second = Math.floor((diff % 60000) / 1000);
+      d.textContent = String(day).padStart(2, '0');
+      h.textContent = String(hour).padStart(2, '0');
+      m.textContent = String(minute).padStart(2, '0');
+      s.textContent = String(second).padStart(2, '0');
+      return true;
+    };
+
+    if (!render()) return;
+    const timer = window.setInterval(() => {
+      if (!render()) window.clearInterval(timer);
+    }, 1000);
+  }
+
+  function setupStatsCounter() {
+    const counters = Array.from(document.querySelectorAll('.ring-num[data-target]'));
+    const rings = Array.from(document.querySelectorAll('.ring-fill[data-fill]'));
+    if (!counters.length && !rings.length) return;
+
+    const circumference = 2 * Math.PI * 34;
+    rings.forEach((ring) => {
+      ring.style.strokeDasharray = `${circumference}`;
+      ring.style.strokeDashoffset = `${circumference}`;
+    });
+
+    const formatNumber = (targetValue, suffix) => {
+      if (suffix === '%') return `${Math.round(targetValue)}%`;
+      if (suffix === '\u2605') return `${targetValue.toFixed(1)}\u2605`;
+      if (suffix === '+') return `${Math.round(targetValue).toLocaleString('en-IN')}+`;
+      return `${Math.round(targetValue).toLocaleString('en-IN')}${suffix || ''}`;
+    };
+
+    const setFinalValue = (el) => {
+      const target = Number.parseFloat(el.dataset.target || '0');
+      const suffix = el.dataset.suffix || '';
+      if (!Number.isFinite(target)) return;
+      el.textContent = formatNumber(target, suffix);
+    };
+
+    const animateCount = (el) => {
+      const target = Number.parseFloat(el.dataset.target || '0');
+      const suffix = el.dataset.suffix || '';
+      if (!Number.isFinite(target)) return;
+      const existing = Number.parseFloat((el.textContent || '').replace(/[^0-9.]/g, ''));
+      if (Number.isFinite(existing) && Math.abs(existing - target) < 0.01) {
+        setFinalValue(el);
+        return;
+      }
+
+      const start = performance.now();
+      const duration = 1800;
+      const tick = (now) => {
+        const progress = Math.min((now - start) / duration, 1);
+        const eased = 1 - Math.pow(1 - progress, 3);
+        const current = target * eased;
+        el.textContent = formatNumber(current, suffix);
+        if (progress < 1) requestAnimationFrame(tick);
+      };
+      requestAnimationFrame(tick);
+    };
+
+    if (!('IntersectionObserver' in window) || reduceMotion) {
+      counters.forEach(setFinalValue);
+      rings.forEach((ring) => {
+        const fill = Number.parseFloat(ring.getAttribute('data-fill') || '0');
+        const safeFill = Number.isFinite(fill) ? Math.max(0, Math.min(1, fill)) : 0;
+        ring.style.strokeDashoffset = `${circumference * (1 - safeFill)}`;
+      });
+      return;
+    }
+
+    const counterObs = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          animateCount(entry.target);
+          counterObs.unobserve(entry.target);
+        });
+      },
+      { threshold: 0.7 }
+    );
+
+    const ringObs = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          const fill = Number.parseFloat(entry.target.getAttribute('data-fill') || '0');
+          const safeFill = Number.isFinite(fill) ? Math.max(0, Math.min(1, fill)) : 0;
+          entry.target.style.strokeDashoffset = `${circumference * (1 - safeFill)}`;
+          ringObs.unobserve(entry.target);
+        });
+      },
+      { threshold: 0.5 }
+    );
+
+    counters.forEach((el) => counterObs.observe(el));
+    rings.forEach((ring) => ringObs.observe(ring));
+  }
+
+  function setupInteractiveTimeline() {
+    const timeline = document.querySelector('.vision-timeline');
+    if (!timeline) return;
+
+    const phaseCards = Array.from(timeline.querySelectorAll('.phase-card[data-phase]'));
+    if (!phaseCards.length) return;
+
+    const fillByPhase = {
+      1: '25%',
+      2: '50%',
+      3: '75%',
+      4: '100%'
+    };
+
+    let selectedPhase = 1;
+
+    const getPhase = (card, fallbackIndex) => {
+      const parsed = Number.parseInt(card.dataset.phase || '', 10);
+      if (Number.isFinite(parsed) && parsed >= 1) return parsed;
+      return fallbackIndex + 1;
+    };
+
+    const applyPhaseState = (phase) => {
+      const safePhase = Math.max(1, Math.min(4, phase));
+      const fill = fillByPhase[safePhase] || '25%';
+      timeline.style.setProperty('--timeline-fill', fill);
+
+      phaseCards.forEach((card, index) => {
+        const cardPhase = getPhase(card, index);
+        const isActive = cardPhase <= safePhase;
+        card.classList.toggle('is-active', isActive);
+        if (cardPhase === safePhase) card.setAttribute('aria-current', 'step');
+        else card.removeAttribute('aria-current');
+
+        const dot = card.querySelector('.phase-dot');
+        if (dot) dot.classList.toggle('is-active', isActive);
+      });
+    };
+
+    const persistPhase = (phase) => {
+      selectedPhase = Math.max(1, Math.min(4, phase));
+      applyPhaseState(selectedPhase);
+    };
+
+    const restoreSelected = () => {
+      applyPhaseState(selectedPhase || 1);
+    };
+
+    phaseCards.forEach((card, index) => {
+      const cardPhase = getPhase(card, index);
+
+      if (!card.hasAttribute('tabindex')) card.tabIndex = 0;
+
+      card.addEventListener('mouseenter', () => applyPhaseState(cardPhase));
+      card.addEventListener('focusin', () => applyPhaseState(cardPhase));
+
+      card.addEventListener('mouseleave', () => {
+        if (card.contains(document.activeElement)) return;
+        restoreSelected();
+      });
+
+      card.addEventListener('focusout', (event) => {
+        const nextTarget = event.relatedTarget;
+        if (nextTarget && timeline.contains(nextTarget)) return;
+        restoreSelected();
+      });
+
+      card.addEventListener('click', () => {
+        persistPhase(cardPhase);
+      });
+
+      card.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape') {
+          persistPhase(1);
+          card.blur();
+          return;
+        }
+
+        if (event.key === 'Enter' || event.key === ' ') {
+          event.preventDefault();
+          persistPhase(cardPhase);
+        }
+      });
+    });
+
+    applyPhaseState(selectedPhase);
+  }
+
+  function setupCursorGlow() {
+    const glow = document.querySelector('.cursor-glow');
+    if (!glow) return;
+
+    if (!finePointer || reduceMotion) {
+      glow.style.display = 'none';
+      return;
+    }
+
+    let targetX = -999;
+    let targetY = -999;
+    let ticking = false;
+    const render = () => {
+      glow.style.transform = `translate(${targetX - 210}px, ${targetY - 210}px)`;
+      ticking = false;
+    };
+
+    document.addEventListener('mousemove', (event) => {
+      targetX = event.clientX;
+      targetY = event.clientY;
+      if (!glow.classList.contains('active')) glow.classList.add('active');
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(render);
+      }
+    });
+    document.addEventListener('mouseleave', () => glow.classList.remove('active'));
+  }
+
+  function setupNavSpy() {
+    const sections = Array.from(document.querySelectorAll('section[id]'));
+    const navLinks = Array.from(document.querySelectorAll('.desktop-nav a, .mob-link, .side-nav-item'));
+    if (!sections.length || !navLinks.length || !('IntersectionObserver' in window)) return;
+
+    const spyObs = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          navLinks.forEach((link) => link.classList.remove('nav-active'));
+          const selectors = [`[href="#${entry.target.id}"]`, `[data-target="${entry.target.id}"]`];
+          document.querySelectorAll(selectors.join(',')).forEach((node) => node.classList.add('nav-active'));
+        });
+      },
+      { threshold: 0.35 }
+    );
+    sections.forEach((section) => spyObs.observe(section));
+  }
+
+  function setupFaqAccordion() {
+    const buttons = Array.from(document.querySelectorAll('.faq-q'));
+    if (!buttons.length) return;
+
+    buttons.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const item = btn.closest('.faq-item');
+        if (!item) return;
+        const isOpen = item.classList.contains('open');
+        document.querySelectorAll('.faq-item.open').forEach((el) => {
+          el.classList.remove('open');
+          const q = el.querySelector('.faq-q');
+          if (q) q.setAttribute('aria-expanded', 'false');
+        });
+        if (!isOpen) {
+          item.classList.add('open');
+          btn.setAttribute('aria-expanded', 'true');
+        }
+      });
+    });
+  }
+
+  function setupFeatureDisclosure() {
+    const cards = Array.from(document.querySelectorAll('.feature-disclosure'));
+    if (!cards.length) return;
+
+    const closeCard = (card) => {
+      card.classList.remove('is-open');
+      const button = card.querySelector('.detail-chevron');
+      if (button) button.setAttribute('aria-expanded', 'false');
+    };
+
+    cards.forEach((card) => {
+      const button = card.querySelector('.detail-chevron');
+      if (!button) return;
+
+      if (!card.hasAttribute('tabindex')) {
+        card.tabIndex = 0;
+      }
+
+      const toggleCard = () => {
+        const shouldOpen = !card.classList.contains('is-open');
+        card.classList.toggle('is-open', shouldOpen);
+        button.setAttribute('aria-expanded', String(shouldOpen));
+      };
+
+      button.addEventListener('click', (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        toggleCard();
+      });
+
+      card.addEventListener('click', (event) => {
+        if (event.target.closest('.detail-chevron')) return;
+        toggleCard();
+      });
+
+      card.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape') {
+          closeCard(card);
+          return;
+        }
+
+        if ((event.key === 'Enter' || event.key === ' ') && event.target === card) {
+          event.preventDefault();
+          toggleCard();
+        }
+      });
+    });
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key !== 'Escape') return;
+      cards.forEach(closeCard);
+    });
+  }
+
+  function setupCompactCardDisclosure() {
+    const cards = Array.from(document.querySelectorAll('.compact-bento-card'));
+    if (!cards.length) return;
+
+    const closeCard = (card) => card.classList.remove('is-expanded');
+
+    cards.forEach((card) => {
+      if (!card.hasAttribute('tabindex')) card.tabIndex = 0;
+
+      card.addEventListener('click', () => {
+        card.classList.toggle('is-expanded');
+      });
+
+      card.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape') {
+          closeCard(card);
+          return;
+        }
+
+        if (event.key === 'Enter' || event.key === ' ') {
+          event.preventDefault();
+          card.classList.toggle('is-expanded');
+        }
+      });
+    });
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key !== 'Escape') return;
+      cards.forEach(closeCard);
+    });
+  }
+
+  function setupSectionLabelIndicator() {
+    if (reduceMotion || !('IntersectionObserver' in window)) return;
+    const labelEl = document.getElementById('sectionLabel');
+    if (!labelEl) return;
+
+    const sectionNames = {
+      intro: '01 - intro',
+      'meet-people': '02 - meet people',
+      groups: '03 - groups',
+      intercollege: '04 - inter-college',
+      features: '05 - features',
+      stats: '06 - stats',
+      vision: '07 - vision',
+      trust: '08 - trust',
+      faq: '09 - faq',
+      campus: '10 - campus',
+      join: '11 - join'
+    };
+
+    let labelTimer = null;
+    const labelObs = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          const label = sectionNames[entry.target.id];
+          if (!label) return;
+          labelEl.textContent = label;
+          labelEl.classList.add('show');
+          window.clearTimeout(labelTimer);
+          labelTimer = window.setTimeout(() => labelEl.classList.remove('show'), 2500);
+        });
+      },
+      { threshold: 0.4 }
+    );
+
+    document.querySelectorAll('section[id]').forEach((section) => labelObs.observe(section));
+  }
+
+  function setupCtaRipple() {
+    if (reduceMotion) return;
+    const buttons = Array.from(document.querySelectorAll('.btn-primary, .btn-campus'));
+    buttons.forEach((btn) => {
+      btn.addEventListener('click', (event) => {
+        const rect = btn.getBoundingClientRect();
+        const size = Math.max(rect.width, rect.height) * 2;
+        const x = (event.clientX || rect.left + rect.width / 2) - rect.left - size / 2;
+        const y = (event.clientY || rect.top + rect.height / 2) - rect.top - size / 2;
+
+        const ripple = document.createElement('span');
+        ripple.style.cssText = `
+          position:absolute;
+          width:${size}px;
+          height:${size}px;
+          border-radius:50%;
+          background:rgba(255,255,255,0.25);
+          left:${x}px;
+          top:${y}px;
+          transform:scale(0);
+          animation:rippleOut 0.6s ease forwards;
+          pointer-events:none;
+        `;
+
+        if (getComputedStyle(btn).position === 'static') btn.style.position = 'relative';
+        btn.style.overflow = 'hidden';
+        btn.appendChild(ripple);
+        window.setTimeout(() => ripple.remove(), 700);
+      });
+    });
+  }
+
+  function setupSplash() {
+    const splash = document.getElementById('splash');
+    if (!splash) return;
+    if (reduceMotion) {
+      splash.classList.add('hide');
+      return;
+    }
+
+    window.addEventListener(
+      'load',
+      () => {
+        window.setTimeout(() => splash.classList.add('hide'), 1600);
+      },
+      { once: true }
+    );
+  }
+
+  function setupMagneticButtons() {
+    if (!finePointer || reduceMotion) return;
+    const buttons = Array.from(document.querySelectorAll('.btn-primary, .btn-secondary, .btn-campus, .mob-cta-btn'));
+    buttons.forEach((btn) => {
+      btn.addEventListener('mousemove', (event) => {
+        const rect = btn.getBoundingClientRect();
+        const x = (event.clientX - rect.left - rect.width / 2) * 0.22;
+        const y = (event.clientY - rect.top - rect.height / 2) * 0.22;
+        btn.style.transform = `translate(${x}px, ${y}px) scale(1.04)`;
+      });
+      btn.addEventListener('mouseleave', () => {
+        btn.style.transform = '';
+      });
+    });
+  }
+
+  function setupCardSpotlightAndTilt() {
+    if (!finePointer || reduceMotion) return;
+    const cards = Array.from(
+      new Set(
+        Array.from(
+          document.querySelectorAll('.glass-card:not(.compact-bento-card), .feature-card, .perk-card, .faq-item')
+        )
+      )
+    );
+    cards.forEach((card) => {
+      card.addEventListener('mousemove', (event) => {
+        const rect = card.getBoundingClientRect();
+        const lx = event.clientX - rect.left;
+        const ly = event.clientY - rect.top;
+        const rotateX = ((event.clientY - rect.top - rect.height / 2) / rect.height) * 3.5;
+        const rotateY = (-(event.clientX - rect.left - rect.width / 2) / rect.width) * 3.5;
+        card.style.transform = `perspective(700px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-4px)`;
+        card.style.setProperty('--mx', `${lx}px`);
+        card.style.setProperty('--my', `${ly}px`);
+        card.style.setProperty('--lx', `${lx}px`);
+        card.style.setProperty('--ly', `${ly}px`);
+      });
+      card.addEventListener('mouseleave', () => {
+        card.style.transform = '';
+      });
+    });
+  }
+
+  function setupWaitlistTicker() {
+    const targets = [
+      document.getElementById('wl-count'),
+      document.getElementById('wlCount'),
+      document.getElementById('wlCount2'),
+      ...Array.from(document.querySelectorAll('.wlCountMirror'))
+    ].filter(Boolean);
+    if (!targets.length) return;
+
+    let value = Number.parseInt((targets[0].textContent || '').replace(/,/g, ''), 10);
+    if (!Number.isFinite(value)) value = 2847;
+
+    const render = () => {
+      const output = value.toLocaleString('en-IN');
+      targets.forEach((el) => {
+        el.textContent = output;
+      });
+    };
+    render();
+
+    window.setInterval(() => {
+      if (Math.random() > 0.55) {
+        value += Math.floor(Math.random() * 3) + 1;
+        render();
+      }
+    }, 5000);
+  }
+
+  function setupSpotsCounter() {
+    const spotsEl = document.getElementById('spotsLeft');
+    if (!spotsEl) return;
+
+    let spots = Number.parseInt(sessionStorage.getItem('spots') || '47', 10);
+    if (!Number.isFinite(spots)) spots = 47;
+    spotsEl.textContent = String(spots);
+
+    window.setInterval(() => {
+      if (spots > 12 && Math.random() > 0.7) {
+        spots -= 1;
+        sessionStorage.setItem('spots', String(spots));
+        spotsEl.textContent = String(spots);
+      }
+    }, 60000);
+  }
+
+  function setupReadingProgressTitle() {
+    const baseTitle = document.title;
+    const update = () => {
+      const total = Math.max(1, document.body.scrollHeight - window.innerHeight);
+      const pct = Math.max(0, Math.min(100, Math.round((window.scrollY / total) * 100)));
+      document.title = pct < 5 ? baseTitle : `${pct}% \u2014 ${baseTitle}`;
+    };
+    update();
+    window.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', update);
+  }
+
+  function setupShareActions() {
+    const copyBtn = document.getElementById('copyBtn');
+    const waShareBtn = document.getElementById('waShareBtn');
+
+    if (waShareBtn) {
+      const text = `Just found sparq - a student network being built inside colleges. Launching August 2026. Check it out: ${window.location.href}`;
+      waShareBtn.href = `https://wa.me/?text=${encodeURIComponent(text)}`;
+    }
+
+    if (!copyBtn) return;
+
+    const copyText = window.location.href;
+    copyBtn.addEventListener('click', async () => {
+      const markCopied = () => {
+        copyBtn.textContent = '\u2713 Copied!';
+        copyBtn.style.borderColor = 'rgba(255,140,0,0.6)';
+        copyBtn.style.color = '#FF8C00';
+        window.setTimeout(() => {
+          copyBtn.textContent = 'Copy link';
+          copyBtn.style.borderColor = '';
+          copyBtn.style.color = '';
+        }, 2500);
+      };
+
+      try {
+        if (navigator.clipboard && window.isSecureContext) {
+          await navigator.clipboard.writeText(copyText);
+          markCopied();
+          return;
+        }
+      } catch (error) {}
+
+      try {
+        const temp = document.createElement('textarea');
+        temp.value = copyText;
+        temp.setAttribute('readonly', '');
+        temp.style.position = 'absolute';
+        temp.style.left = '-9999px';
+        document.body.appendChild(temp);
+        temp.select();
+        document.execCommand('copy');
+        temp.remove();
+        markCopied();
+      } catch (error) {}
+    });
+  }
+
+  function setupExitIntentPopup() {
+    const popup = document.getElementById('exitPopup');
+    const overlay = document.getElementById('exitOverlay');
+    const closeBtn = document.getElementById('exitClose');
+    if (!popup || !overlay || !closeBtn || !finePointer) return;
+
+    let exitShown = false;
+    const closeExit = () => {
+      popup.classList.remove('show');
+      overlay.classList.remove('show');
+    };
+
+    const showExit = () => {
+      popup.classList.add('show');
+      overlay.classList.add('show');
+    };
+
+    document.addEventListener('mouseleave', (event) => {
+      if (
+        event.clientY <= 0 &&
+        !exitShown &&
+        !sessionStorage.getItem('exitSeen')
+      ) {
+        showExit();
+        exitShown = true;
+        sessionStorage.setItem('exitSeen', '1');
+      }
+    });
+
+    closeBtn.addEventListener('click', closeExit);
+    overlay.addEventListener('click', closeExit);
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') closeExit();
+    });
+  }
+
+  function setupStickyMobileCta() {
+    const stickyBar = document.getElementById('stickyMobCta');
+    if (!stickyBar) return;
+
+    const mq = window.matchMedia('(max-width: 768px)');
+    const showThreshold = 360;
+    const hideThreshold = 260;
+    let isVisible = false;
+    const update = () => {
+      if (!mq.matches) {
+        isVisible = false;
+        stickyBar.classList.remove('visible');
+        stickyBar.setAttribute('aria-hidden', 'true');
+        return;
+      }
+
+      const y = window.scrollY;
+      if (!isVisible && y >= showThreshold) {
+        isVisible = true;
+        stickyBar.classList.add('visible');
+        stickyBar.setAttribute('aria-hidden', 'false');
+      } else if (isVisible && y <= hideThreshold) {
+        isVisible = false;
+        stickyBar.classList.remove('visible');
+        stickyBar.setAttribute('aria-hidden', 'true');
+      }
+    };
+
+    update();
+    window.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', update);
+    if (typeof mq.addEventListener === 'function') mq.addEventListener('change', update);
+  }
+
+  function confettiBurst(originEl) {
+    if (reduceMotion) return;
+    const symbols = ['&#10022;', '&#9670;', '&#9671;', '&#9632;', '&#9633;', '&#9642;', '&#9679;', '&#9678;'];
+    const rect = originEl.getBoundingClientRect();
+
+    for (let i = 0; i < 14; i += 1) {
+      const node = document.createElement('span');
+      node.innerHTML = symbols[Math.floor(Math.random() * symbols.length)];
+      const rx = (Math.random() - 0.5) * 160;
+      node.style.cssText = `
+        position: fixed;
+        font-size: 18px;
+        left: ${rect.left + rect.width / 2}px;
+        top: ${rect.top}px;
+        pointer-events: none;
+        z-index: 9999;
+        animation: cUp 0.9s ease forwards;
+        animation-delay: ${Math.random() * 0.25}s;
+        --rx: ${rx}px;
+      `;
+      document.body.appendChild(node);
+      window.setTimeout(() => node.remove(), 1200);
+    }
+  }
+
+  function setupConfettiOnCta() {
+    const ctaLinks = Array.from(document.querySelectorAll('a[href*="google.com/forms"]'));
+    if (!ctaLinks.length) return;
+    ctaLinks.forEach((link) => {
+      link.target = '_blank';
+      link.rel = 'noopener noreferrer';
+      link.addEventListener('click', () => confettiBurst(link));
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    setupSplash();
+    setupHeroSequence();
+    setupHeroTypewriter();
+    setupMobileDrawer();
+    setupRevealObserver();
+    setupScrollProgress();
+    setupCountdown();
+    setupStatsCounter();
+    setupInteractiveTimeline();
+    setupCursorGlow();
+    setupNavSpy();
+    setupFaqAccordion();
+    setupCompactCardDisclosure();
+    setupFeatureDisclosure();
+    setupSectionLabelIndicator();
+    setupMagneticButtons();
+    setupCtaRipple();
+    setupCardSpotlightAndTilt();
+    setupWaitlistTicker();
+    setupSpotsCounter();
+    setupReadingProgressTitle();
+    setupShareActions();
+    setupExitIntentPopup();
+    setupStickyMobileCta();
+    setupConfettiOnCta();
+  });
+})();
+    </script>
+    <script>
+(() => {
+  const reduceMotionSwipe = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const canAutoSwipe =
+    !reduceMotionSwipe && window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+
+  function setupHeroSwipeCards() {
+    const stack = document.getElementById('heroSwipeStack');
+    const dotsWrap = document.getElementById('heroSwipeDots');
+    if (!stack || !dotsWrap) return;
+
+    const cards = Array.from(stack.querySelectorAll('.swipe-card'));
+    if (!cards.length) return;
+
+    let current = 0;
+    let swiping = false;
+    let autoTimer = null;
+    let dragStartX = 0;
+    let dragDeltaX = 0;
+    let dragging = false;
+
+    dotsWrap.innerHTML = cards
+      .map((_, idx) => `<span class="swipe-dot${idx === 0 ? ' active' : ''}"></span>`)
+      .join('');
+    const dots = Array.from(dotsWrap.querySelectorAll('.swipe-dot'));
+
+    function applyStates() {
+      const total = cards.length;
+
+      cards.forEach((card, idx) => {
+        const offset = (idx - current + total) % total;
+        card.classList.remove(
+          'is-active',
+          'is-next',
+          'is-third',
+          'is-hidden',
+          'is-enter-from-right',
+          'is-entering'
+        );
+
+        if (offset === 0) card.classList.add('is-active');
+        else if (offset === 1) card.classList.add('is-next');
+        else if (offset === 2) card.classList.add('is-third');
+        else card.classList.add('is-hidden');
+
+        card.style.transform = '';
+        card.style.opacity = '';
+        card.style.transition = '';
+      });
+
+      dots.forEach((dot, idx) => dot.classList.toggle('active', idx === current));
+    }
+
+    function scheduleAuto() {
+      if (!canAutoSwipe) return;
+      clearInterval(autoTimer);
+      autoTimer = window.setInterval(() => swipe('left'), 2800);
+    }
+
+    function swipe(direction = 'left') {
+      if (swiping) return;
+
+      const activeCard = cards[current];
+      if (!activeCard) return;
+
+      swiping = true;
+      activeCard.classList.add(direction === 'left' ? 'is-swiping-left' : 'is-swiping-right');
+
+      window.setTimeout(() => {
+        activeCard.classList.remove('is-swiping-left', 'is-swiping-right');
+
+        if (direction === 'left') {
+          current = (current + 1) % cards.length;
+        } else {
+          current = (current - 1 + cards.length) % cards.length;
+        }
+
+        applyStates();
+
+        const enteringIndex = (current + 2) % cards.length;
+        const enteringCard = cards[enteringIndex];
+        if (enteringCard) {
+          enteringCard.classList.add('is-enter-from-right');
+          requestAnimationFrame(() => enteringCard.classList.add('is-entering'));
+          window.setTimeout(() => {
+            enteringCard.classList.remove('is-enter-from-right', 'is-entering');
+          }, 300);
+        }
+
+        swiping = false;
+      }, 290);
+    }
+
+    function onPointerDown(event) {
+      if (swiping) return;
+      const activeCard = cards[current];
+      if (!activeCard || event.target.closest('.swipe-overlay')) return;
+
+      dragging = true;
+      dragStartX = event.clientX;
+      dragDeltaX = 0;
+      activeCard.style.transition = 'none';
+      clearInterval(autoTimer);
+
+      if (activeCard.setPointerCapture && event.pointerId !== undefined) {
+        activeCard.setPointerCapture(event.pointerId);
+      }
+    }
+
+    function onPointerMove(event) {
+      if (!dragging || swiping) return;
+      const activeCard = cards[current];
+      if (!activeCard) return;
+
+      dragDeltaX = event.clientX - dragStartX;
+      const rotate = dragDeltaX / 36;
+      activeCard.style.transform = `translateX(${dragDeltaX}px) rotate(${rotate}deg) scale(0.996)`;
+      activeCard.style.opacity = `${Math.max(0.45, 1 - Math.abs(dragDeltaX) / 320)}`;
+    }
+
+    function onPointerUp() {
+      if (!dragging) return;
+      dragging = false;
+
+      const activeCard = cards[current];
+      if (!activeCard) return;
+
+      activeCard.style.transition = 'transform 0.24s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.24s ease';
+
+      if (Math.abs(dragDeltaX) > 62) {
+        swipe(dragDeltaX < 0 ? 'left' : 'right');
+      } else {
+        activeCard.style.transform = '';
+        activeCard.style.opacity = '';
+        applyStates();
+      }
+
+      scheduleAuto();
+    }
+
+    stack.addEventListener('pointerdown', onPointerDown);
+    stack.addEventListener('pointermove', onPointerMove);
+    stack.addEventListener('pointerup', onPointerUp);
+    stack.addEventListener('pointercancel', onPointerUp);
+    stack.addEventListener('pointerleave', onPointerUp);
+    if (canAutoSwipe) {
+      stack.addEventListener('mouseenter', () => clearInterval(autoTimer));
+      stack.addEventListener('mouseleave', scheduleAuto);
+    }
+
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) {
+        clearInterval(autoTimer);
+      } else {
+        scheduleAuto();
+      }
+    });
+
+    applyStates();
+    scheduleAuto();
+  }
+
+  document.addEventListener('DOMContentLoaded', setupHeroSwipeCards);
+})();
+    </script>
+  </body>
+</html>
+
+ 
+ 
